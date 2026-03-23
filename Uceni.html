@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Učení</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --success: #4CAF50;
+            --bg: #F0F2F5;
+            --en-color: #00B4D8;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1 { font-family: 'Fredoka One', cursive; color: var(--primary); margin-bottom: 20px; text-align: center; }
+
+        .screen { width: 100%; max-width: 800px; display: none; }
+        .active-screen { display: block; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px 20px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.4rem;
+        }
+
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 25px rgba(0,0,0,0.15); }
+        .card-math { border-bottom: 10px solid var(--primary); color: var(--primary); }
+        .card-cz { border-bottom: 10px solid var(--secondary); color: var(--secondary); }
+        .card-en { border-bottom: 10px solid var(--en-color); color: var(--en-color); }
+
+        .sub-list { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+        .sub-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: 2px solid var(--en-color);
+            color: var(--en-color);
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .sub-item:hover { background: var(--en-color); color: white; }
+
+        .game-container {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            background: #eee;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .question { font-size: 2.2rem; margin: 20px 0; color: #333; line-height: 1.4; }
+        input { font-size: 1.8rem; padding: 10px; width: 85%; text-align: center; border: 3px solid #ddd; border-radius: 15px; outline: none; }
+        .btn-check { display: block; margin: 25px auto 0; padding: 15px 40px; background: var(--success); color: white; border: none; border-radius: 15px; font-size: 1.3rem; cursor: pointer; font-weight: bold; }
+
+        .score-board { margin-top: 25px; font-size: 1.5rem; color: var(--primary); font-weight: bold; }
+        .message { height: 35px; margin-top: 15px; font-weight: bold; font-size: 1.3rem; }
+        .win { color: var(--success); }
+        .error { color: var(--secondary); animation: shake 0.2s; }
+
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    </style>
+</head>
+<body>
+
+    <div id="main-menu" class="screen active-screen">
+        <h1>Vyber si předmět 📚</h1>
+        <div class="grid">
+            <button class="card card-math" onclick="startMath()">🔢<br>Násobení</button>
+            <button class="card card-cz" onclick="startCzech()">🔤<br>Čeština</button>
+            <button class="card card-en" onclick="showEnSub()">🇬🇧<br>English</button>
+        </div>
+    </div>
+
+    <div id="en-menu" class="screen">
+        <button class="back-btn" onclick="showScreen('main-menu')">← Zpět</button>
+        <h1>English Topics 🇬🇧</h1>
+        <div class="sub-list">
+            <div class="sub-item" onclick="startEn('body')">💪 Body Parts</div>
+            <div class="sub-item" onclick="startEn('insects')">🐜 Insects</div>
+            <div class="sub-item" onclick="startEn('adj')">✨ Adjectives & Adverbs</div>
+            <div class="sub-item" onclick="startEn('subjects')">📚 School Subjects</div>
+            <div class="sub-item" onclick="startEn('present')">🔄 Present Continuous (-ing)</div>
+            <div class="sub-item" onclick="startEn('pastBe')">⏳ Was / Were</div>
+            <div class="sub-item" onclick="startEn('food')">🍕 Food & Drink</div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <button id="game-back-btn" class="back-btn">← Zpět</button>
+        <div class="game-container">
+            <span id="hint-text" style="color:#888; font-style:italic;">Zadání:</span>
+            <div id="q-text" class="question">Načítám...</div>
+            <input type="text" id="ans-input" autocomplete="off" placeholder="Odpověď">
+            <button class="btn-check" onclick="checkAnswer()">Zkontrolovat!</button>
+            <div id="msg" class="message"></div>
+            <div class="score-board">Skóre: <span id="score">0</span> 🔥</div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let mode = ''; 
+        let subMode = '';
+        let currentAnswer = '';
+        
+        // Indexy pro postupné procházení
+        let czechIndex = 0;
+        let enIndices = { body:0, insects:0, adj:0, subjects:0, present:0, pastBe:0, food:0 };
+
+        const data = {
+            czech: [
+                {q: 'praha', a: 'Praha', h: 'Město:'}, {q: 'pavel', a: 'Pavel', h: 'Jméno:'},
+                {q: 'vltava', a: 'Vltava', h: 'Řeka:'}, {q: 'slovensko', a: 'Slovensko', h: 'Stát:'},
+                {q: 'krkonoše', a: 'Krkonoše', h: 'Pohoří:'}, {q: 'mars', a: 'Mars', h: 'Planeta:'},
+                {q: 'česká republika', a: 'Česká republika', h: 'Stát:'}, {q: 'labe', a: 'Labe', h: 'Řeka:'}
+            ],
+            en: {
+                body: [{q: 'Hlava', a: 'head'}, {q: 'Ruka', a: 'hand'}, {q: 'Noha', a: 'leg'}, {q: 'Oko', a: 'eye'}, {q: 'Ucho', a: 'ear'}],
+                insects: [{q: 'Včela', a: 'bee'}, {q: 'Pavouk', a: 'spider'}, {q: 'Motýl', a: 'butterfly'}, {q: 'Mravenec', a: 'ant'}],
+                adj: [{q: 'Rychlý', a: 'fast'}, {q: 'Dobře', a: 'well'}, {q: 'Pomalu', a: 'slowly'}, {q: 'Šťastně', a: 'happily'}],
+                subjects: [{q: 'Zeměpis', a: 'geography'}, {q: 'Tělocvik', a: 'PE'}, {q: 'Dějepis', a: 'history'}, {q: 'Výtvarka', a: 'art'}],
+                present: [
+                    {q: 'I (play) tennis.', a: 'am playing'}, {q: 'She (read).', a: 'is reading'}, 
+                    {q: 'They (run).', a: 'are running'}, {q: 'He (not sleep).', a: 'is not sleeping'}
+                ],
+                pastBe: [
+                    {q: 'I ___ at school yesterday.', a: 'was'},
+                    {q: 'They ___ in London.', a: 'were'},
+                    {q: 'She ___ (not) happy.', a: 'was not'},
+                    {q: 'You ___ my friend.', a: 'were'},
+                    {q: 'We ___ (not) at home.', a: 'were not'},
+                    {q: 'It ___ very cold.', a: 'was'}
+                ],
+                food: [{q: 'Jablko', a: 'apple'}, {q: 'Sýr', a: 'cheese'}, {q: 'Zelenina (mn. č.)', a: 'vegetables'}, {q: 'Chleba', a: 'bread'}]
+            }
+        };
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+            document.getElementById(id).classList.add('active-screen');
+        }
+
+        function startMath() {
+            mode = 'math';
+            document.getElementById('game-back-btn').onclick = () => showScreen('main-menu');
+            showScreen('game-screen');
+            newQuestion();
+        }
+
+        function startCzech() {
+            mode = 'czech';
+            document.getElementById('game-back-btn').onclick = () => showScreen('main-menu');
+            showScreen('game-screen');
+            newQuestion();
+        }
+
+        function showEnSub() { showScreen('en-menu'); }
+
+        function startEn(topic) {
+            mode = 'en';
+            subMode = topic;
+            document.getElementById('game-back-btn').onclick = () => showScreen('en-menu');
+            showScreen('game-screen');
+            newQuestion();
+        }
+
+        function newQuestion() {
+            const qEl = document.getElementById('q-text');
+            const hEl = document.getElementById('hint-text');
+            const input = document.getElementById('ans-input');
+            input.value = ""; input.focus();
+            document.getElementById('msg').textContent = "";
+
+            if (mode === 'math') {
+                let a = Math.floor(Math.random() * 10) + 1;
+                let b = Math.floor(Math.random() * 10) + 1;
+                currentAnswer = (a * b).toString();
+                qEl.textContent = `${a} × ${b}`;
+                hEl.textContent = "Vypočítej:";
+            } else if (mode === 'czech') {
+                let item = data.czech[czechIndex];
+                currentAnswer = item.a;
+                qEl.textContent = item.q;
+                hEl.textContent = item.h;
+                czechIndex = (czechIndex + 1) % data.czech.length;
+            } else if (mode === 'en') {
+                let list = data.en[subMode];
+                let idx = enIndices[subMode];
+                let item = list[idx];
+                currentAnswer = item.a;
+                qEl.textContent = item.q;
+                hEl.textContent = "Doplň/Přelož:";
+                enIndices[subMode] = (idx + 1) % list.length;
+            }
+        }
+
+        function checkAnswer() {
+            const userAns = document.getElementById('ans-input').value.trim();
+            const msg = document.getElementById('msg');
+            
+            if (userAns.toLowerCase() === currentAnswer.toLowerCase()) {
+                score += 10;
+                msg.textContent = "VÝBORNĚ! 🌟"; msg.className = "message win";
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 } });
+                setTimeout(newQuestion, 1200);
+            } else {
+                score = Math.max(0, score - 5);
+                msg.textContent = "Zkus to znovu 💪"; msg.className = "message error";
+            }
+            document.getElementById('score').textContent = score;
+        }
+
+        document.getElementById('ans-input').addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') checkAnswer(); 
+        });
+    </script>
+</body>
+</html>
