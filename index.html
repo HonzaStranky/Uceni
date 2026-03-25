@@ -156,7 +156,7 @@
         <div class="grid">
             <button class="card card-math" onclick="startMath()">🔢<br>Násobení</button>
             <button class="card card-cz" onclick="startCzech()">🔤<br>Čeština</button>
-            <button class="card card-en" onclick="showEnGrades()">🇬🇧<br>English</button>
+            <button class="card card-en" onclick="showEnGrades()">👑<br>English</button>
         </div>
     </div>
 
@@ -167,6 +167,9 @@
             <button class="card card-en" onclick="showEnSub('4')">4. Třída</button>
             <button class="card card-en" onclick="showEnSub('5')">5. Třída</button>
             <button class="card card-en" onclick="showEnSub('6')">6. Třída</button>
+            <button class="card card-en" onclick="showEnSub('7')">7. Třída</button>
+            <button class="card card-en" onclick="showEnSub('8')">8. Třída</button>
+            <button class="card card-en" onclick="showEnSub('9')">9. Třída</button>
         </div>
     </div>
 
@@ -184,11 +187,11 @@
             <span id="hint-text" style="color:#888; font-style:italic;">Zadání:</span>
             <div id="q-text" class="question">Načítám...</div>
             <div class="input-area">
-                <input type="text" id="ans-input" autocomplete="off" placeholder="Ťukej na klávesnici" readonly>
+                <input type="text" id="ans-input" autocomplete="off" placeholder="Použíj klávesnici" readonly>
             </div>
             
             <button class="btn-check" onclick="checkAnswer()">Zkontrolovat!</button>
-            <button class="btn-hint" onclick="showHint()">Nápověda 💡</button>
+            <button class="btn-hint" onclick="showHint()">Odpověď 💡</button>
             
             <div id="msg" class="message"></div>
 
@@ -225,52 +228,15 @@
                 {q: 'mars', a: 'Mars', h: 'Planeta:'}, {q: 'slovensko', a: 'Slovensko', h: 'Stát:'}
             ],
             en: {
-                body: [
-                    {q: 'Hlava', a: 'head'}, {q: 'Ruka', a: 'hand'}, {q: 'Noha', a: 'leg'}, {q: 'Oko', a: 'eye'}, {q: 'Ucho', a: 'ear'},
-                    {q: 'Nos', a: 'nose'}, {q: 'Ústa', a: 'mouth'}, {q: 'Zub', a: 'tooth'}, {q: 'Zuby', a: 'teeth'}, {q: 'Jazyk', a: 'tongue'},
-                    {q: 'Krk', a: 'neck'}, {q: 'Rameno', a: 'shoulder'}, {q: 'Loket', a: 'elbow'}, {q: 'Zápěstí', a: 'wrist'}, {q: 'Prst (ruka)', a: 'finger'},
-                    {q: 'Palec', a: 'thumb'}, {q: 'Nehet', a: 'nail'}, {q: 'Hrudník', a: 'chest'}, {q: 'Záda', a: 'back'}, {q: 'Břicho', a: 'stomach'},
-                    {q: 'Pas', a: 'waist'}, {q: 'Bok', a: 'hip'}, {q: 'Koleno', a: 'knee'}, {q: 'Kotník', a: 'ankle'}, {q: 'Pata', a: 'heel'},
-                    {q: 'Chodidlo', a: 'foot'}, {q: 'Chodidla', a: 'feet'}, {q: 'Prst (noha)', a: 'toe'}, {q: 'Kůže', a: 'skin'},
-                    {q: 'Vlasy', a: 'hair'}, {q: 'Tvář', a: 'face'}
-                ],
-                insects: [
-                    {q: 'Včela', a: 'bee'}, {q: 'Pavouk', a: 'spider'}, {q: 'Motýl', a: 'butterfly'}, {q: 'Mravenec', a: 'ant'}, {q: 'Moucha', a: 'fly'},
-                    {q: 'Komár', a: 'mosquito'}, {q: 'Vosa', a: 'wasp'}, {q: 'Čmelák', a: 'bumblebee'}, {q: 'Sršeň', a: 'hornet'}, {q: 'Beruška', a: 'ladybird'},
-                    {q: 'Brouk', a: 'beetle'}, {q: 'Kobylka', a: 'grasshopper'}, {q: 'Cvrček', a: 'cricket'}, {q: 'Vážka', a: 'dragonfly'}, {q: 'Můra', a: 'moth'},
-                    {q: 'Šváb', a: 'cockroach'}, {q: 'Blecha', a: 'flea'}, {q: 'Veš', a: 'louse'}, {q: 'Klíště', a: 'tick'}, {q: 'Stonožka', a: 'centipede'},
-                    {q: 'Žížala', a: 'earthworm'}, {q: 'Šnek', a: 'snail'}, {q: 'Slimák', a: 'slug'}, {q: 'Štír', a: 'scorpion'}, {q: 'Modlivka', a: 'mantis'},
-                    {q: 'Housenka', a: 'caterpillar'}, {q: 'Larva', a: 'larva'}
-                ],
-                adj: [
-                    {q: 'Rychlý', a: 'fast'}, {q: 'Dobrý', a: 'good'}, {q: 'Dobře', a: 'well'}, {q: 'Šťastný', a: 'happy'}, {q: 'Šťastně', a: 'happily'},
-                    {q: 'Pomalý', a: 'slow'}, {q: 'Pomalu', a: 'slowly'}, {q: 'Hlasitý', a: 'loud'}, {q: 'Hlasitě', a: 'loudly'}, {q: 'Smutný', a: 'sad'},
-                    {q: 'Smutně', a: 'sadly'}, {q: 'Klidný', a: 'quiet'}, {q: 'Klidně', a: 'quietly'}, {q: 'Zlý', a: 'bad'}, {q: 'Špatně', a: 'badly'},
-                    {q: 'Krásný', a: 'beautiful'}, {q: 'Snadný', a: 'easy'}, {q: 'Snadno', a: 'easily'}, {q: 'Tvrdý', a: 'hard'}, {q: 'Pečlivý', a: 'careful'},
-                    {q: 'Pečlivě', a: 'carefully'}, {q: 'Bezpečný', a: 'safe'}, {q: 'Silný', a: 'strong'}, {q: 'Jasný', a: 'bright'}, {q: 'Statečný', a: 'brave'},
-                    {q: 'Laskavý', a: 'kind'}, {q: 'Zdvořilý', a: 'polite'}, {q: 'Hrozný', a: 'terrible'}, {q: 'Vážný', a: 'serious'}, {q: 'Hladový', a: 'hungry'},
-                    {q: 'Žíznivý', a: 'thirsty'}, {q: 'Unavený', a: 'tired'}, {q: 'Nudný', a: 'boring'}, {q: 'Mladý', a: 'young'}, {q: 'Starý', a: 'old'}
-                ],
-                subjects: [
-                    {q: 'Zeměpis', a: 'geography'}, {q: 'Tělocvik', a: 'PE'}, {q: 'Dějepis', a: 'history'}, {q: 'Výtvarka', a: 'art'}, {q: 'Matika', a: 'maths'},
-                    {q: 'Angličtina', a: 'English'}, {q: 'Čeština', a: 'Czech'}, {q: 'Fyzika', a: 'physics'}, {q: 'Chemie', a: 'chemistry'}, {q: 'Přírodopis', a: 'biology'},
-                    {q: 'Hudebka', a: 'music'}, {q: 'Informatika', a: 'ICT'}, {q: 'Občanka', a: 'civics'}, {q: 'Literatura', a: 'literature'}, {q: 'Němčina', a: 'German'},
-                ],
-                present: [
-                    {q: 'I (play) tennis.', a: 'am playing'}, {q: 'She (read) a book.', a: 'is reading'}, {q: 'They (run) fast.', a: 'are running'}, {q: 'He (not sleep).', a: 'is not sleeping'}, {q: 'We (eat) lunch.', a: 'are eating'},
-                    {q: 'You (watch) TV.', a: 'are watching'}, {q: 'It (rain) now.', a: 'is raining'}, {q: 'I (not cook).', a: 'am not cooking'}, {q: 'Birds (sing).', a: 'are singing'}, {q: 'The sun (shine).', a: 'is shining'},
-                    {q: 'Who (knock)?', a: 'is knocking'}, {q: 'I (wait) for you.', a: 'am waiting'}, {q: 'She (dance).', a: 'is dancing'}, {q: 'They (swim).', a: 'are swimming'}, {q: 'He (drive) a car.', a: 'is driving'},
-                    {q: 'We (listen).', a: 'are listening'}, {q: 'My dad (work).', a: 'is working'}, {q: 'Dogs (bark).', a: 'are barking'}, {q: 'I (write).', a: 'am writing'}, {q: 'She (not cry).', a: 'is not crying'},
-                    {q: 'They (play) football.', a: 'are playing'}, {q: 'He (study).', a: 'is studying'}, {q: 'We (clean).', a: 'are cleaning'}, {q: 'You (drink).', a: 'are drinking'}, {q: 'It (snow).', a: 'is snowing'},
-                    {q: 'I (sit).', a: 'am sitting'}, {q: 'She (smile).', a: 'is smiling'}, {q: 'They (talk).', a: 'are talking'}, {q: 'The cat (sleep).', a: 'is sleeping'}, {q: 'He (jump).', a: 'is jumping'}
-                ],
-                pastBe: [
-                    {q: 'I ___ at school.', a: 'was'}, {q: 'They ___ in London.', a: 'were'}, {q: 'She ___ happy.', a: 'was'}, {q: 'You ___ my friend.', a: 'were'}, {q: 'We ___ at home.', a: 'were'},
-                    {q: 'It ___ cold.', a: 'was'}, {q: 'I ___ not hungry.', a: 'was'}, {q: 'They ___ not here.', a: 'were'}, {q: 'He ___ not tired.', a: 'was'}, {q: 'We ___ not late.', a: 'were'},
-                    {q: '___ you at home?', a: 'were'}, {q: '___ she okay?', a: 'was'}, {q: 'Where ___ they?', a: 'were'}, {q: 'Coffee ___ hot.', a: 'was'}, {q: 'Shops ___ open.', a: 'were'},
-                    {q: 'Parents ___ angry.', a: 'were'}, {q: 'Book ___ good.', a: 'was'}, {q: 'I ___ not sad.', a: 'was'}, {q: 'We ___ not ready.', a: 'were'}, {q: 'Dog ___ outside.', a: 'was'},
-                    {q: 'Cats ___ on bed.', a: 'were'}, {q: '___ it raining?', a: 'was'}, {q: 'Film ___ boring.', a: 'was'}, {q: 'You ___ not alone.', a: 'were'}, {q: 'He ___ a teacher.', a: 'was'},
-                    {q: 'We ___ students.', a: 'were'}, {q: 'Room ___ dark.', a: 'was'}, {q: 'Windows ___ dirty.', a: 'were'}, {q: '___ I right?', a: 'was'}, {q: 'Water ___ cold.', a: 'was'}
+                // 4. / 5. TŘÍDA
+                
+                animals: [
+                    {q: 'Pes', a: 'dog'}, {q: 'Kočka', a: 'cat'}, {q: 'Kůň', a: 'horse'}, {q: 'Kráva', a: 'cow'}, {q: 'Prase', a: 'pig'},
+                    {q: 'Ovce', a: 'sheep'}, {q: 'Lev', a: 'lion'}, {q: 'Tygr', a: 'tiger'}, {q: 'Slon', a: 'elephant'}, {q: 'Žirafa', a: 'giraffe'},
+                    {q: 'Opičák', a: 'monkey'}, {q: 'Had', a: 'snake'}, {q: 'Želva', a: 'turtle'}, {q: 'Medvěd', a: 'bear'}, {q: 'Vlk', a: 'wolf'},
+                    {q: 'Liška', a: 'fox'}, {q: 'Zajíc', a: 'rabbit'}, {q: 'Pták', a: 'bird'}, {q: 'Ryba', a: 'fish'}, {q: 'Žralok', a: 'shark'},
+                    {q: 'Velryba', a: 'whale'}, {q: 'Delfín', a: 'dolphin'}, {q: 'Slepice', a: 'hen'}, {q: 'Kachna', a: 'duck'}, {q: 'Koza', a: 'goat'},
+                    {q: 'Myš', a: 'mouse'}, {q: 'Potkan', a: 'rat'}, {q: 'Křeček', a: 'hamster'}, {q: 'Papoušek', a: 'parrot'}, {q: 'Veverka', a: 'squirrel'}
                 ],
                 food: [
                     {q: 'Jablko', a: 'apple'}, {q: 'Sýr', a: 'cheese'}, {q: 'Chleba', a: 'bread'}, {q: 'Zelenina', a: 'vegetables'}, {q: 'Máslo', a: 'butter'},
@@ -278,10 +244,69 @@
                     {q: 'Rýže', a: 'rice'}, {q: 'Těstoviny', a: 'pasta'}, {q: 'Polévka', a: 'soup'}, {q: 'Salát', a: 'salad'}, {q: 'Ovoce', a: 'fruit'},
                     {q: 'Brambory', a: 'potatoes'}, {q: 'Rajče', a: 'tomato'}, {q: 'Okurka', a: 'cucumber'}, {q: 'Cibule', a: 'onion'}, {q: 'Česnek', a: 'garlic'},
                     {q: 'Mrkev', a: 'carrot'}, {q: 'Banán', a: 'banana'}, {q: 'Pomeranč', a: 'orange'}, {q: 'Jahoda', a: 'strawberry'}, {q: 'Hrozny', a: 'grapes'},
-                    {q: 'Dort', a: 'cake'}, {q: 'Čokoláda', a: 'chocolate'}, {q: 'Zmrzlina', a: 'ice cream'}, {q: 'Cukr', a: 'sugar'}, {q: 'Sůl', a: 'salt'},
-                    {q: 'Voda', a: 'water'}, {q: 'Čaj', a: 'tea'}, {q: 'Káva', a: 'coffee'}, {q: 'Džus', a: 'juice'}, {q: 'Pizza', a: 'pizza'}
+                    {q: 'Dort', a: 'cake'}, {q: 'Čokoláda', a: 'chocolate'}, {q: 'Zmrzlina', a: 'ice cream'}, {q: 'Voda', a: 'water'}, {q: 'Džus', a: 'juice'}
+                ],
+
+                // 6.-7. TŘÍDA
+                body: [
+                    {q: 'Hlava', a: 'head'}, {q: 'Ruka', a: 'hand'}, {q: 'Noha', a: 'leg'}, {q: 'Oko', a: 'eye'}, {q: 'Ucho', a: 'ear'},
+                    {q: 'Nos', a: 'nose'}, {q: 'Ústa', a: 'mouth'}, {q: 'Zub', a: 'tooth'}, {q: 'Zuby', a: 'teeth'}, {q: 'Jazyk', a: 'tongue'},
+                    {q: 'Krk', a: 'neck'}, {q: 'Rameno', a: 'shoulder'}, {q: 'Loket', a: 'elbow'}, {q: 'Zápěstí', a: 'wrist'}, {q: 'Prst (ruka)', a: 'finger'},
+                    {q: 'Palec', a: 'thumb'}, {q: 'Nehet', a: 'nail'}, {q: 'Hrudník', a: 'chest'}, {q: 'Záda', a: 'back'}, {q: 'Břicho', a: 'stomach'},
+                    {q: 'Pas', a: 'waist'}, {q: 'Bok', a: 'hip'}, {q: 'Koleno', a: 'knee'}, {q: 'Kotník', a: 'ankle'}, {q: 'Pata', a: 'heel'},
+                    {q: 'Chodidlo', a: 'foot'}, {q: 'Chodidla', a: 'feet'}, {q: 'Prst (noha)', a: 'toe'}, {q: 'Kůže', a: 'skin'}, {q: 'Vlasy', a: 'hair'}, {q: 'Tvář', a: 'face'}
+                ],
+
+                insects: [
+                    {q: 'Včela', a: 'bee'}, {q: 'Pavouk', a: 'spider'}, {q: 'Motýl', a: 'butterfly'}, {q: 'Mravenec', a: 'ant'}, {q: 'Moucha', a: 'fly'},
+                    {q: 'Komár', a: 'mosquito'}, {q: 'Vosa', a: 'wasp'}, {q: 'Čmelák', a: 'bumblebee'}, {q: 'Sršeň', a: 'hornet'}, {q: 'Beruška', a: 'ladybird'},
+                    {q: 'Brouk', a: 'beetle'}, {q: 'Kobylka', a: 'grasshopper'}, {q: 'Cvrček', a: 'cricket'}, {q: 'Vážka', a: 'dragonfly'}, {q: 'Můra', a: 'moth'},
+                    {q: 'Šváb', a: 'cockroach'}, {q: 'Blecha', a: 'flea'}, {q: 'Veš', a: 'louse'}, {q: 'Klíště', a: 'tick'}, {q: 'Stonožka', a: 'centipede'},
+                    {q: 'Žížala', a: 'earthworm'}, {q: 'Šnek', a: 'snail'}, {q: 'Slimák', a: 'slug'}, {q: 'Housenka', a: 'caterpillar'}, {q: 'Larva', a: 'larva'}
+                ],
+                adj: [
+                    {q: 'Rychlý', a: 'fast'}, {q: 'Dobrý', a: 'good'}, {q: 'Šťastný', a: 'happy'}, {q: 'Pomalý', a: 'slow'}, {q: 'Hlasitý', a: 'loud'},
+                    {q: 'Smutný', a: 'sad'}, {q: 'Klidný', a: 'quiet'}, {q: 'Zlý', a: 'bad'}, {q: 'Krásný', a: 'beautiful'}, {q: 'Snadný', a: 'easy'},
+                    {q: 'Tvrdý', a: 'hard'}, {q: 'Pečlivý', a: 'careful'}, {q: 'Bezpečný', a: 'safe'}, {q: 'Silný', a: 'strong'}, {q: 'Jasný', a: 'bright'},
+                    {q: 'Statečný', a: 'brave'}, {q: 'Laskavý', a: 'kind'}, {q: 'Zdvořilý', a: 'polite'}, {q: 'Hrozný', a: 'terrible'}, {q: 'Vážný', a: 'serious'},
+                    {q: 'Hladový', a: 'hungry'}, {q: 'Žíznivý', a: 'thirsty'}, {q: 'Unavený', a: 'tired'}, {q: 'Nudný', a: 'boring'}, {q: 'Mladý', a: 'young'}
+                ],
+                pastBe: [
+                    {q: 'I ___ (be) at school.', a: 'was'}, {q: 'They ___ (be) in London.', a: 'were'}, {q: 'She ___ happy.', a: 'was'}, {q: 'You ___ my friend.', a: 'were'}, {q: 'We ___ at home.', a: 'were'},
+                    {q: 'It ___ cold.', a: 'was'}, {q: 'I ___ not hungry.', a: 'was'}, {q: 'They ___ not here.', a: 'were'}, {q: 'He ___ not tired.', a: 'was'}, {q: 'We ___ not late.', a: 'were'},
+                    {q: 'Where ___ they?', a: 'were'}, {q: 'Coffee ___ hot.', a: 'was'}, {q: 'Shops ___ open.', a: 'were'}, {q: 'Parents ___ angry.', a: 'were'}, {q: 'Book ___ good.', a: 'was'},
+                    {q: 'I ___ not sad.', a: 'was'}, {q: 'We ___ not ready.', a: 'were'}, {q: 'Dog ___ outside.', a: 'was'}, {q: 'Cats ___ on bed.', a: 'were'}, {q: 'Water ___ cold.', a: 'was'}
+                ],
+
+                // 8.-9. TŘÍDA
+                jobs: [
+                    {q: 'Právník', a: 'lawyer'}, {q: 'Soudce', a: 'judge'}, {q: 'Lékař', a: 'doctor'}, {q: 'Sestřička', a: 'nurse'}, {q: 'Zubní lékař', a: 'dentist'},
+                    {q: 'Inženýr', a: 'engineer'}, {q: 'Vědec', a: 'scientist'}, {q: 'Učitel', a: 'teacher'}, {q: 'Novinář', a: 'journalist'}, {q: 'Hasič', a: 'firefighter'},
+                    {q: 'Policista', a: 'police officer'}, {q: 'Kuchař', a: 'chef'}, {q: 'Číšník', a: 'waiter'}, {q: 'Herec', a: 'actor'}, {q: 'Spisovatel', a: 'writer'},
+                    {q: 'Účetní', a: 'accountant'}, {q: 'Architekt', a: 'architect'}, {q: 'Pilot', a: 'pilot'}, {q: 'Řidič', a: 'driver'}, {q: 'Prodavač', a: 'shop assistant'},
+                    {q: 'Podnikatel', a: 'businessman'}, {q: 'Zedník', a: 'builder'}, {q: 'Instalatér', a: 'plumber'}, {q: 'Elektrikář', a: 'electrician'}, {q: 'Zemědělec', a: 'farmer'}
+                ],
+                environment: [
+                    {q: 'Země (planeta)', a: 'earth'}, {q: 'Příroda', a: 'nature'}, {q: 'Les', a: 'forest'}, {q: 'Řeka', a: 'river'}, {q: 'Oceán', a: 'ocean'},
+                    {q: 'Znečištění', a: 'pollution'}, {q: 'Recyklace', a: 'recycling'}, {q: 'Odpadky', a: 'rubbish'}, {q: 'Globální oteplování', a: 'global warming'}, {q: 'Energie', a: 'energy'},
+                    {q: 'Slunce', a: 'sun'}, {q: 'Vzduch', a: 'air'}, {q: 'Voda', a: 'water'}, {q: 'Rostlina', a: 'plant'}, {q: 'Strom', a: 'tree'},
+                    {q: 'Počasí', a: 'weather'}, {q: 'Blesk', a: 'lightning'}, {q: 'Bouřka', a: 'storm'}, {q: 'Sucho', a: 'drought'}, {q: 'Povodeň', a: 'flood'},
+                    {q: 'Třídit odpad', a: 'sort waste'}, {q: 'Plast', a: 'plastic'}, {q: 'Sklo', a: 'glass'}, {q: 'Papír', a: 'paper'}, {q: 'Chránit', a: 'protect'}
+                ],
+                presentPerfect: [
+                    {q: 'I (see) it.', a: 'have seen'}, {q: 'She (go) out.', a: 'has gone'}, {q: 'They (finish).', a: 'have finished'}, {q: 'He (lost) keys.', a: 'has lost'}, {q: 'We (be) there.', a: 'have been'},
+                    {q: 'I (not hear) that.', a: 'have not heard'}, {q: 'You (do) it.', a: 'have done'}, {q: 'It (stop) raining.', a: 'has stopped'}, {q: 'She (buy) a car.', a: 'has bought'}, {q: 'They (not arrive).', a: 'have not arrived'},
+                    {q: 'I (write) a book.', a: 'have written'}, {q: 'He (eat) lunch.', a: 'has eaten'}, {q: 'We (meet) him.', a: 'have met'}, {q: 'You (find) it.', a: 'have found'}, {q: 'She (forgot) it.', a: 'has forgotten'},
+                    {q: 'I (never be) abroad.', a: 'have never been'}, {q: 'He (just left).', a: 'has just left'}, {q: 'They (live) here.', a: 'have lived'}, {q: 'We (win).', a: 'have won'}, {q: 'Who (do) that?', a: 'has done'}
+                ],
+                passiveVoice: [
+                    {q: 'It (make) in China.', a: 'is made'}, {q: 'Bread (bake) daily.', a: 'is baked'}, {q: 'Cars (repair) here.', a: 'are repaired'}, {q: 'I (invite) to party.', a: 'am invited'}, {q: 'Letters (send).', a: 'are sent'},
+                    {q: 'It (build) in 1990.', a: 'was built'}, {q: 'She (born) in Prague.', a: 'was born'}, {q: 'They (tell) the truth.', a: 'were told'}, {q: 'The car (steal).', a: 'was stolen'}, {q: 'The window (break).', a: 'was broken'},
+                    {q: 'English (speak) here.', a: 'is spoken'}, {q: 'Rooms (clean) now.', a: 'are cleaned'}, {q: 'Films (show) in TV.', a: 'are shown'}, {q: 'He (catch) by police.', a: 'was caught'}, {q: 'Pizza (deliver).', a: 'is delivered'}
                 ]
             }
+                        
+            
         };
 
         // Klávesnice písmena
@@ -302,9 +327,12 @@
             document.getElementById('en-menu-title').textContent = `English - ${grade}. Třída`;
             
             let topics = [];
-            if (grade === '4') topics = ['food',]
-            if (grade === '5') topics = ['food', 'body', 'insects'];
-            if (grade === '6') topics = ['body', 'insects', 'adj', 'present', 'pastBe', 'food', 'subjects']; // Vše kromě předmětů
+            if (grade === '4') topics = ['food', 'animals'];
+            if (grade === '5') topics = ['food', 'animals'];
+            if (grade === '6') topics = ['adjectives', 'body', 'insects', 'pastBe'];
+            if (grade === '7') topics = ['adjectives', 'body', 'insects', 'pastBe'];
+            if (grade === '8') topics = ['jobs', 'environment', 'presentperfect', 'passiveVoice'];
+            if (grade === '9') topics = ['jobs', 'environment', 'presentperfect', 'passiveVoice'];
 
             topics.forEach(t => {
                 let div = document.createElement('div');
@@ -412,7 +440,7 @@
                 let item = shuffledEn[subMode].pop(); // Vyber poslední kartu
                 currentAnswer = item.a; 
                 qEl.textContent = item.q; 
-                hEl.textContent = "Přelož:";
+                hEl.textContent = "Translate Přelož:";
             }
         }
 
