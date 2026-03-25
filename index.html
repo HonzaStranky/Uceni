@@ -77,7 +77,7 @@
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             position: relative;
         }
@@ -93,7 +93,7 @@
             font-size: 1.1rem;
             color: var(--en-color);
             border: 3px solid var(--en-color);
-            display: none; /* Schovaný na začátku */
+            display: none;
         }
 
         .back-btn {
@@ -106,9 +106,40 @@
             margin-bottom: 20px;
         }
 
-        .question { font-size: 2.2rem; margin: 20px 0; color: #333; line-height: 1.4; }
-        input { font-size: 1.8rem; padding: 10px; width: 85%; text-align: center; border: 3px solid #ddd; border-radius: 15px; outline: none; }
-        .btn-check { display: block; margin: 25px auto 0; padding: 15px 40px; background: var(--success); color: white; border: none; border-radius: 15px; font-size: 1.3rem; cursor: pointer; font-weight: bold; }
+        .question { font-size: 2.2rem; margin: 10px 0; color: #333; line-height: 1.4; }
+        
+        /* Styl pro input a nápovědu */
+        .input-area { margin: 20px 0; }
+        input { font-size: 1.8rem; padding: 10px; width: 85%; text-align: center; border: 3px solid #ddd; border-radius: 15px; outline: none; background: #fafafa; }
+        
+        /* KLÁVESNICE */
+        .keyboard {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 20px;
+        }
+        .key {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            min-width: 45px;
+        }
+        .key:active { background: #eee; transform: translateY(2px); }
+        .key-del { background: #ffebed; border-color: var(--secondary); color: var(--secondary); }
+        .key-space { min-width: 120px; }
+
+        .btn-check { display: inline-block; margin: 10px 5px; padding: 15px 30px; background: var(--success); color: white; border: none; border-radius: 15px; font-size: 1.3rem; cursor: pointer; font-weight: bold; }
+        .btn-hint { display: inline-block; margin: 10px 5px; padding: 15px 30px; background: #FFB347; color: white; border: none; border-radius: 15px; font-size: 1.3rem; cursor: pointer; font-weight: bold; }
 
         .score-board { margin-top: 25px; font-size: 1.5rem; color: var(--primary); font-weight: bold; }
         .message { height: 35px; margin-top: 15px; font-weight: bold; font-size: 1.3rem; }
@@ -125,22 +156,25 @@
         <div class="grid">
             <button class="card card-math" onclick="startMath()">🔢<br>Násobení</button>
             <button class="card card-cz" onclick="startCzech()">🔤<br>Čeština</button>
-            <button class="card card-en" onclick="showEnSub()">🇬🇧<br>English</button>
+            <button class="card card-en" onclick="showEnGrades()">🇬🇧<br>English</button>
+        </div>
+    </div>
+
+    <div id="en-grades" class="screen">
+        <button class="back-btn" onclick="showScreen('main-menu')">← Zpět</button>
+        <h1>Vyber si třídu 🎒</h1>
+        <div class="grid">
+            <button class="card card-en" onclick="showEnSub('4')">4. Třída</button>
+            <button class="card card-en" onclick="showEnSub('5')">5. Třída</button>
+            <button class="card card-en" onclick="showEnSub('6')">6. Třída</button>
         </div>
     </div>
 
     <div id="en-menu" class="screen">
-        <button class="back-btn" onclick="showScreen('main-menu')">← Zpět</button>
-        <h1>English Topics 🇬🇧</h1>
-        <div class="sub-list">
-            <div class="sub-item" onclick="startEn('body')">💪 Body Parts</div>
-            <div class="sub-item" onclick="startEn('insects')">🐜 Insects</div>
-            <div class="sub-item" onclick="startEn('adj')">✨ Adjectives & Adverbs</div>
-            <div class="sub-item" onclick="startEn('subjects')">📚 School Subjects</div>
-            <div class="sub-item" onclick="startEn('present')">🔄 Present Continuous</div>
-            <div class="sub-item" onclick="startEn('pastBe')">⏳ Was / Were</div>
-            <div class="sub-item" onclick="startEn('food')">🍕 Food & Drink</div>
-        </div>
+        <button class="back-btn" onclick="showScreen('en-grades')">← Zpět</button>
+        <h1 id="en-menu-title">English Topics 🇬🇧</h1>
+        <div id="en-sub-list" class="sub-list">
+            </div>
     </div>
 
     <div id="game-screen" class="screen">
@@ -149,9 +183,18 @@
             <div id="timer-display">Čas: 0s</div>
             <span id="hint-text" style="color:#888; font-style:italic;">Zadání:</span>
             <div id="q-text" class="question">Načítám...</div>
-            <input type="text" id="ans-input" autocomplete="off" placeholder="Odpověď">
+            <div class="input-area">
+                <input type="text" id="ans-input" autocomplete="off" placeholder="Ťukej na klávesnici" readonly>
+            </div>
+            
             <button class="btn-check" onclick="checkAnswer()">Zkontrolovat!</button>
+            <button class="btn-hint" onclick="showHint()">Nápověda 💡</button>
+            
             <div id="msg" class="message"></div>
+
+            <div class="keyboard" id="keyboard">
+                </div>
+
             <div class="score-board">Skóre: <span id="score">0</span> 🔥</div>
         </div>
     </div>
@@ -163,9 +206,18 @@
         let currentAnswer = '';
         let secondsPassed = 0;
         let timerInterval;
-
+        let shuffledEn = {}; // Tady budou zamíchané hromádky pro každou kategorii
+        let shuffledCz = [];
         let czechIndex = 0;
         let enIndices = { body:0, insects:0, adj:0, subjects:0, present:0, pastBe:0, food:0 };
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
         const data = {
             czech: [
@@ -177,13 +229,10 @@
                     {q: 'Hlava', a: 'head'}, {q: 'Ruka', a: 'hand'}, {q: 'Noha', a: 'leg'}, {q: 'Oko', a: 'eye'}, {q: 'Ucho', a: 'ear'},
                     {q: 'Nos', a: 'nose'}, {q: 'Ústa', a: 'mouth'}, {q: 'Zub', a: 'tooth'}, {q: 'Zuby', a: 'teeth'}, {q: 'Jazyk', a: 'tongue'},
                     {q: 'Krk', a: 'neck'}, {q: 'Rameno', a: 'shoulder'}, {q: 'Loket', a: 'elbow'}, {q: 'Zápěstí', a: 'wrist'}, {q: 'Prst (ruka)', a: 'finger'},
-                    {q: 'Palec (ruka)', a: 'thumb'}, {q: 'Nehet', a: 'nail'}, {q: 'Hrudník', a: 'chest'}, {q: 'Záda', a: 'back'}, {q: 'Břicho', a: 'stomach'},
+                    {q: 'Palec', a: 'thumb'}, {q: 'Nehet', a: 'nail'}, {q: 'Hrudník', a: 'chest'}, {q: 'Záda', a: 'back'}, {q: 'Břicho', a: 'stomach'},
                     {q: 'Pas', a: 'waist'}, {q: 'Bok', a: 'hip'}, {q: 'Koleno', a: 'knee'}, {q: 'Kotník', a: 'ankle'}, {q: 'Pata', a: 'heel'},
-                    {q: 'Chodidlo', a: 'foot'}, {q: 'Chodidla', a: 'feet'}, {q: 'Prst (noha)', a: 'toe'}, {q: 'Kůže', a: 'skin'}, {q: 'Krev', a: 'blood'},
-                    {q: 'Kost', a: 'bone'}, {q: 'Srdce', a: 'heart'}, {q: 'Mozek', a: 'brain'}, {q: 'Plíce', a: 'lungs'}, {q: 'Tvář', a: 'face'},
-                    {q: 'Čelo', a: 'forehead'}, {q: 'Brada', a: 'chin'}, {q: 'Líce', a: 'cheek'}, {q: 'Obočí', a: 'eyebrow'}, {q: 'Řasy', a: 'eyelashes'},
-                    {q: 'Vlasy', a: 'hair'}, {q: 'Vousy', a: 'beard'}, {q: 'Kníry', a: 'mustache'}, {q: 'Hrdlo', a: 'throat'}, {q: 'Paže', a: 'arm'},
-                    {q: 'Stehno', a: 'thigh'}, {q: 'Lýtko', a: 'calf'}, {q: 'Páteř', a: 'spine'}, {q: 'Kloub', a: 'joint'}, {q: 'Sval', a: 'muscle'}
+                    {q: 'Chodidlo', a: 'foot'}, {q: 'Chodidla', a: 'feet'}, {q: 'Prst (noha)', a: 'toe'}, {q: 'Kůže', a: 'skin'},
+                    {q: 'Vlasy', a: 'hair'}, {q: 'Tvář', a: 'face'}
                 ],
                 insects: [
                     {q: 'Včela', a: 'bee'}, {q: 'Pavouk', a: 'spider'}, {q: 'Motýl', a: 'butterfly'}, {q: 'Mravenec', a: 'ant'}, {q: 'Moucha', a: 'fly'},
@@ -191,92 +240,92 @@
                     {q: 'Brouk', a: 'beetle'}, {q: 'Kobylka', a: 'grasshopper'}, {q: 'Cvrček', a: 'cricket'}, {q: 'Vážka', a: 'dragonfly'}, {q: 'Můra', a: 'moth'},
                     {q: 'Šváb', a: 'cockroach'}, {q: 'Blecha', a: 'flea'}, {q: 'Veš', a: 'louse'}, {q: 'Klíště', a: 'tick'}, {q: 'Stonožka', a: 'centipede'},
                     {q: 'Žížala', a: 'earthworm'}, {q: 'Šnek', a: 'snail'}, {q: 'Slimák', a: 'slug'}, {q: 'Štír', a: 'scorpion'}, {q: 'Modlivka', a: 'mantis'},
-                    {q: 'Mandelinka', a: 'potato beetle'}, {q: 'Jepice', a: 'mayfly'}, {q: 'Termit', a: 'termite'}, {q: 'Cvrček', a: 'cricket'}, {q: 'Housenka', a: 'caterpillar'},
-                    {q: 'Kukla', a: 'pupa'}, {q: 'Larva', a: 'larva'}, {q: 'Křídlo', a: 'wing'}, {q: 'Tykadlo', a: 'antenna'}, {q: 'Žihadlo', a: 'sting'},
-                    {q: 'Pavučina', a: 'spiderweb'}, {q: 'Úl', a: 'beehive'}, {q: 'Mraveniště', a: 'anthill'}, {q: 'Cikáda', a: 'cicada'}, {q: 'Světluška', a: 'firefly'},
-                    {q: 'Vši (množné č.)', a: 'lice'}, {q: 'Tesařík', a: 'longhorn beetle'}, {q: 'Hovnivál', a: 'dung beetle'}, {q: 'Zlatohlávek', a: 'rose chafer'}, {q: 'Chroust', a: 'cockchafer'},
-                    {q: 'Rybenka', a: 'silverfish'}, {q: 'Vodoměrka', a: 'water strider'}, {q: 'Potápník', a: 'diving beetle'}, {q: 'Roháč', a: 'stag beetle'}, {q: 'Lýkožrout', a: 'bark beetle'}
+                    {q: 'Housenka', a: 'caterpillar'}, {q: 'Larva', a: 'larva'}
                 ],
                 adj: [
-                    {q: 'Rychlý', a: 'fast'}, {q: 'Rychle', a: 'fast'}, {q: 'Dobrý', a: 'good'}, {q: 'Dobře', a: 'well'}, {q: 'Šťastný', a: 'happy'},
-                    {q: 'Šťastně', a: 'happily'}, {q: 'Pomalý', a: 'slow'}, {q: 'Pomalu', a: 'slowly'}, {q: 'Hlasitý', a: 'loud'}, {q: 'Hlasitě', a: 'loudly'},
-                    {q: 'Smutný', a: 'sad'}, {q: 'Smutně', a: 'sadly'}, {q: 'Klidný', a: 'quiet'}, {q: 'Klidně', a: 'quietly'}, {q: 'Zlý/Špatný', a: 'bad'},
-                    {q: 'Špatně', a: 'badly'}, {q: 'Krásný', a: 'beautiful'}, {q: 'Krásně', a: 'beautifully'}, {q: 'Snadný', a: 'easy'}, {q: 'Snadno', a: 'easily'},
-                    {q: 'Tvrdý/Těžký', a: 'hard'}, {q: 'Tvrdě/Těžce', a: 'hard'}, {q: 'Pečlivý', a: 'careful'}, {q: 'Pečlivě', a: 'carefully'}, {q: 'Bezpečný', a: 'safe'},
-                    {q: 'Bezpečně', a: 'safely'}, {q: 'Silný', a: 'strong'}, {q: 'Silně', a: 'strongly'}, {q: 'Jasný', a: 'bright'}, {q: 'Jasně', a: 'brightly'},
-                    {q: 'Statečný', a: 'brave'}, {q: 'Statečně', a: 'bravely'}, {q: 'Milý/Laskavý', a: 'kind'}, {q: 'Laskavě', a: 'kindly'}, {q: 'Zdvořilý', a: 'polite'},
-                    {q: 'Zdvořile', a: 'politely'}, {q: 'Netrpělivý', a: 'impatient'}, {q: 'Netrpělivě', a: 'impatiently'}, {q: 'Hrozný', a: 'terrible'}, {q: 'Hrozně', a: 'terribly'},
-                    {q: 'Vážný', a: 'serious'}, {q: 'Vážně', a: 'seriously'}, {q: 'Náhlý', a: 'sudden'}, {q: 'Náhle', a: 'suddenly'}, {q: 'Vzteklý', a: 'angry'},
-                    {q: 'Vztekle', a: 'angrily'}, {q: 'Hladový', a: 'hungry'}, {q: 'Žíznivý', a: 'thirsty'}, {q: 'Unavený', a: 'tired'}, {q: 'Nudný', a: 'boring'}
+                    {q: 'Rychlý', a: 'fast'}, {q: 'Dobrý', a: 'good'}, {q: 'Dobře', a: 'well'}, {q: 'Šťastný', a: 'happy'}, {q: 'Šťastně', a: 'happily'},
+                    {q: 'Pomalý', a: 'slow'}, {q: 'Pomalu', a: 'slowly'}, {q: 'Hlasitý', a: 'loud'}, {q: 'Hlasitě', a: 'loudly'}, {q: 'Smutný', a: 'sad'},
+                    {q: 'Smutně', a: 'sadly'}, {q: 'Klidný', a: 'quiet'}, {q: 'Klidně', a: 'quietly'}, {q: 'Zlý', a: 'bad'}, {q: 'Špatně', a: 'badly'},
+                    {q: 'Krásný', a: 'beautiful'}, {q: 'Snadný', a: 'easy'}, {q: 'Snadno', a: 'easily'}, {q: 'Tvrdý', a: 'hard'}, {q: 'Pečlivý', a: 'careful'},
+                    {q: 'Pečlivě', a: 'carefully'}, {q: 'Bezpečný', a: 'safe'}, {q: 'Silný', a: 'strong'}, {q: 'Jasný', a: 'bright'}, {q: 'Statečný', a: 'brave'},
+                    {q: 'Laskavý', a: 'kind'}, {q: 'Zdvořilý', a: 'polite'}, {q: 'Hrozný', a: 'terrible'}, {q: 'Vážný', a: 'serious'}, {q: 'Hladový', a: 'hungry'},
+                    {q: 'Žíznivý', a: 'thirsty'}, {q: 'Unavený', a: 'tired'}, {q: 'Nudný', a: 'boring'}, {q: 'Mladý', a: 'young'}, {q: 'Starý', a: 'old'}
                 ],
                 subjects: [
                     {q: 'Zeměpis', a: 'geography'}, {q: 'Tělocvik', a: 'PE'}, {q: 'Dějepis', a: 'history'}, {q: 'Výtvarka', a: 'art'}, {q: 'Matika', a: 'maths'},
                     {q: 'Angličtina', a: 'English'}, {q: 'Čeština', a: 'Czech'}, {q: 'Fyzika', a: 'physics'}, {q: 'Chemie', a: 'chemistry'}, {q: 'Přírodopis', a: 'biology'},
-                    {q: 'Hudebka', a: 'music'}, {q: 'Informatika', a: 'ICT'}, {q: 'Občanka', a: 'civics'}, {q: 'Náboženství', a: 'RE'}, {q: 'Pracovní činnosti', a: 'crafts'},
-                    {q: 'Literatura', a: 'literature'}, {q: 'Francouzština', a: 'French'}, {q: 'Němčina', a: 'German'}, {q: 'Španělština', a: 'Spanish'}, {q: 'Ruština', a: 'Russian'},
-                    {q: 'Školní rozvrh', a: 'timetable'}, {q: 'Předmět', a: 'subject'}, {q: 'Přestávka', a: 'break'}, {q: 'Oběd', a: 'lunch'}, {q: 'Domácí úkol', a: 'homework'},
-                    {q: 'Zkouška/Test', a: 'test'}, {q: 'Známka', a: 'grade'}, {q: 'Učebnice', a: 'textbook'}, {q: 'Sešit', a: 'notebook'}, {q: 'Penál', a: 'pencil case'},
-                    {q: 'Tužka', a: 'pencil'}, {q: 'Pero', a: 'pen'}, {q: 'Guma', a: 'eraser'}, {q: 'Pravítko', a: 'ruler'}, {q: 'Ořezávátko', a: 'sharpener'},
-                    {q: 'Batoh', a: 'school bag'}, {q: 'Tabule', a: 'board'}, {q: 'Křída', a: 'chalk'}, {q: 'Fixa', a: 'marker'}, {q: 'Lavice', a: 'desk'},
-                    {q: 'Židle', a: 'chair'}, {q: 'Učitel', a: 'teacher'}, {q: 'Učitelka', a: 'teacher'}, {q: 'Ředitel', a: 'headmaster'}, {q: 'Spolužák', a: 'classmate'},
-                    {q: 'Třída (místnost)', a: 'classroom'}, {q: 'Tělocvična', a: 'gym'}, {q: 'Hřiště', a: 'playground'}, {q: 'Šatna', a: 'cloakroom'}, {q: 'Jídelna', a: 'canteen'}
+                    {q: 'Hudebka', a: 'music'}, {q: 'Informatika', a: 'ICT'}, {q: 'Občanka', a: 'civics'}, {q: 'Literatura', a: 'literature'}, {q: 'Němčina', a: 'German'},
                 ],
                 present: [
                     {q: 'I (play) tennis.', a: 'am playing'}, {q: 'She (read) a book.', a: 'is reading'}, {q: 'They (run) fast.', a: 'are running'}, {q: 'He (not sleep).', a: 'is not sleeping'}, {q: 'We (eat) lunch.', a: 'are eating'},
                     {q: 'You (watch) TV.', a: 'are watching'}, {q: 'It (rain) now.', a: 'is raining'}, {q: 'I (not cook).', a: 'am not cooking'}, {q: 'Birds (sing).', a: 'are singing'}, {q: 'The sun (shine).', a: 'is shining'},
                     {q: 'Who (knock)?', a: 'is knocking'}, {q: 'I (wait) for you.', a: 'am waiting'}, {q: 'She (dance).', a: 'is dancing'}, {q: 'They (swim).', a: 'are swimming'}, {q: 'He (drive) a car.', a: 'is driving'},
-                    {q: 'We (listen) to music.', a: 'are listening'}, {q: 'You (not listen).', a: 'are not listening'}, {q: 'My dad (work).', a: 'is working'}, {q: 'Dogs (bark).', a: 'are barking'}, {q: 'I (write) an email.', a: 'am writing'},
-                    {q: 'She (not cry).', a: 'is not crying'}, {q: 'They (play) football.', a: 'are playing'}, {q: 'He (study).', a: 'is studying'}, {q: 'We (clean) the house.', a: 'are cleaning'}, {q: 'You (drink) water.', a: 'are drinking'},
-                    {q: 'It (snow) outside.', a: 'is snowing'}, {q: 'I (sit) on a chair.', a: 'am sitting'}, {q: 'She (smile).', a: 'is smiling'}, {q: 'They (talk).', a: 'are talking'}, {q: 'The cat (sleep).', a: 'is sleeping'},
-                    {q: 'He (jump).', a: 'is jumping'}, {q: 'We (walk).', a: 'are walking'}, {q: 'I (wash) my hands.', a: 'am washing'}, {q: 'She (help) me.', a: 'is helping'}, {q: 'They (look) at us.', a: 'are looking'},
-                    {q: 'He (wear) a hat.', a: 'is wearing'}, {q: 'It (get) dark.', a: 'is getting'}, {q: 'I (learn) English.', a: 'am learning'}, {q: 'She (not look).', a: 'is not looking'}, {q: 'We (travel).', a: 'are traveling'},
-                    {q: 'You (make) dinner.', a: 'are making'}, {q: 'They (build) a house.', a: 'are building'}, {q: 'He (paint) a picture.', a: 'is painting'}, {q: 'I (buy) bread.', a: 'am buying'}, {q: 'She (not sing).', a: 'is not singing'},
-                    {q: 'Birds (fly).', a: 'are flying'}, {q: 'We (not play).', a: 'are not playing'}, {q: 'You (laugh).', a: 'are laughing'}, {q: 'They (wait).', a: 'are waiting'}, {q: 'He (call) me.', a: 'is calling'}
+                    {q: 'We (listen).', a: 'are listening'}, {q: 'My dad (work).', a: 'is working'}, {q: 'Dogs (bark).', a: 'are barking'}, {q: 'I (write).', a: 'am writing'}, {q: 'She (not cry).', a: 'is not crying'},
+                    {q: 'They (play) football.', a: 'are playing'}, {q: 'He (study).', a: 'is studying'}, {q: 'We (clean).', a: 'are cleaning'}, {q: 'You (drink).', a: 'are drinking'}, {q: 'It (snow).', a: 'is snowing'},
+                    {q: 'I (sit).', a: 'am sitting'}, {q: 'She (smile).', a: 'is smiling'}, {q: 'They (talk).', a: 'are talking'}, {q: 'The cat (sleep).', a: 'is sleeping'}, {q: 'He (jump).', a: 'is jumping'}
                 ],
                 pastBe: [
                     {q: 'I ___ at school.', a: 'was'}, {q: 'They ___ in London.', a: 'were'}, {q: 'She ___ happy.', a: 'was'}, {q: 'You ___ my friend.', a: 'were'}, {q: 'We ___ at home.', a: 'were'},
-                    {q: 'It ___ cold.', a: 'was'}, {q: 'I ___ (not) hungry.', a: 'was not'}, {q: 'They ___ (not) here.', a: 'were not'}, {q: 'He ___ (not) tired.', a: 'was not'}, {q: 'We ___ (not) late.', a: 'were not'},
-                    {q: '___ you at home?', a: 'were'}, {q: '___ she okay?', a: 'was'}, {q: 'Where ___ they?', a: 'were'}, {q: 'The coffee ___ hot.', a: 'was'}, {q: 'The shops ___ open.', a: 'were'},
-                    {q: 'My parents ___ angry.', a: 'were'}, {q: 'The book ___ good.', a: 'was'}, {q: 'I ___ (not) sad.', a: 'was not'}, {q: 'We ___ (not) ready.', a: 'were not'}, {q: 'The dog ___ outside.', a: 'was'},
-                    {q: 'The cats ___ on the bed.', a: 'were'}, {q: '___ it raining?', a: 'was'}, {q: 'The film ___ boring.', a: 'was'}, {q: 'You ___ (not) alone.', a: 'were not'}, {q: 'He ___ a teacher.', a: 'was'},
-                    {q: 'We ___ students.', a: 'were'}, {q: 'The room ___ dark.', a: 'was'}, {q: 'The windows ___ dirty.', a: 'were'}, {q: '___ I right?', a: 'was'}, {q: 'The water ___ cold.', a: 'was'},
-                    {q: 'They ___ (not) happy.', a: 'were not'}, {q: 'I ___ in the garden.', a: 'was'}, {q: 'She ___ (not) there.', a: 'was not'}, {q: 'The weather ___ nice.', a: 'was'}, {q: 'The tickets ___ cheap.', a: 'were'},
-                    {q: '___ the kids quiet?', a: 'were'}, {q: 'The car ___ red.', a: 'was'}, {q: 'The mountains ___ high.', a: 'were'}, {q: 'I ___ (not) sleepy.', a: 'was not'}, {q: 'You ___ (not) late.', a: 'were not'},
-                    {q: 'Where ___ you?', a: 'were'}, {q: '___ your mum busy?', a: 'was'}, {q: 'The cakes ___ sweet.', a: 'were'}, {q: 'The soup ___ salty.', a: 'was'}, {q: 'He ___ (not) fast.', a: 'was not'},
-                    {q: 'We ___ (not) scared.', a: 'were not'}, {q: 'The test ___ easy.', a: 'was'}, {q: 'The questions ___ hard.', a: 'were'}, {q: 'I ___ a baby.', a: 'was'}, {q: 'They ___ (not) small.', a: 'were not'}
+                    {q: 'It ___ cold.', a: 'was'}, {q: 'I ___ not hungry.', a: 'was'}, {q: 'They ___ not here.', a: 'were'}, {q: 'He ___ not tired.', a: 'was'}, {q: 'We ___ not late.', a: 'were'},
+                    {q: '___ you at home?', a: 'were'}, {q: '___ she okay?', a: 'was'}, {q: 'Where ___ they?', a: 'were'}, {q: 'Coffee ___ hot.', a: 'was'}, {q: 'Shops ___ open.', a: 'were'},
+                    {q: 'Parents ___ angry.', a: 'were'}, {q: 'Book ___ good.', a: 'was'}, {q: 'I ___ not sad.', a: 'was'}, {q: 'We ___ not ready.', a: 'were'}, {q: 'Dog ___ outside.', a: 'was'},
+                    {q: 'Cats ___ on bed.', a: 'were'}, {q: '___ it raining?', a: 'was'}, {q: 'Film ___ boring.', a: 'was'}, {q: 'You ___ not alone.', a: 'were'}, {q: 'He ___ a teacher.', a: 'was'},
+                    {q: 'We ___ students.', a: 'were'}, {q: 'Room ___ dark.', a: 'was'}, {q: 'Windows ___ dirty.', a: 'were'}, {q: '___ I right?', a: 'was'}, {q: 'Water ___ cold.', a: 'was'}
                 ],
                 food: [
-                    {q: 'Jablko', a: 'apple'}, {q: 'Sýr', a: 'cheese'}, {q: 'Zelenina (mn. č.)', a: 'vegetables'}, {q: 'Chleba', a: 'bread'}, {q: 'Máslo', a: 'butter'},
+                    {q: 'Jablko', a: 'apple'}, {q: 'Sýr', a: 'cheese'}, {q: 'Chleba', a: 'bread'}, {q: 'Zelenina', a: 'vegetables'}, {q: 'Máslo', a: 'butter'},
                     {q: 'Mléko', a: 'milk'}, {q: 'Vejce', a: 'egg'}, {q: 'Maso', a: 'meat'}, {q: 'Kuře', a: 'chicken'}, {q: 'Ryba', a: 'fish'},
                     {q: 'Rýže', a: 'rice'}, {q: 'Těstoviny', a: 'pasta'}, {q: 'Polévka', a: 'soup'}, {q: 'Salát', a: 'salad'}, {q: 'Ovoce', a: 'fruit'},
                     {q: 'Brambory', a: 'potatoes'}, {q: 'Rajče', a: 'tomato'}, {q: 'Okurka', a: 'cucumber'}, {q: 'Cibule', a: 'onion'}, {q: 'Česnek', a: 'garlic'},
                     {q: 'Mrkev', a: 'carrot'}, {q: 'Banán', a: 'banana'}, {q: 'Pomeranč', a: 'orange'}, {q: 'Jahoda', a: 'strawberry'}, {q: 'Hrozny', a: 'grapes'},
                     {q: 'Dort', a: 'cake'}, {q: 'Čokoláda', a: 'chocolate'}, {q: 'Zmrzlina', a: 'ice cream'}, {q: 'Cukr', a: 'sugar'}, {q: 'Sůl', a: 'salt'},
-                    {q: 'Pepř', a: 'pepper'}, {q: 'Olej', a: 'oil'}, {q: 'Ořechy', a: 'nuts'}, {q: 'Med', a: 'honey'}, {q: 'Džem', a: 'jam'},
-                    {q: 'Šťáva/Džus', a: 'juice'}, {q: 'Voda', a: 'water'}, {q: 'Čaj', a: 'tea'}, {q: 'Káva', a: 'coffee'}, {q: 'Limonáda', a: 'lemonade'},
-                    {q: 'Pivo', a: 'beer'}, {q: 'Víno', a: 'wine'}, {q: 'Šunka', a: 'ham'}, {q: 'Párek', a: 'sausage'}, {q: 'Slanina', a: 'bacon'},
-                    {q: 'Hranolky', a: 'chips'}, {q: 'Hamburger', a: 'hamburger'}, {q: 'Pizza', a: 'pizza'}, {q: 'Sendvič', a: 'sandwich'}, {q: 'Jogurt', a: 'yogurt'}
+                    {q: 'Voda', a: 'water'}, {q: 'Čaj', a: 'tea'}, {q: 'Káva', a: 'coffee'}, {q: 'Džus', a: 'juice'}, {q: 'Pizza', a: 'pizza'}
                 ]
             }
         };
+
+        // Klávesnice písmena
+        const letters = "qwertzuiopasdfghjklyxcvbnm".split("");
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
             document.getElementById(id).classList.add('active-screen');
         }
 
+        function showEnGrades() {
+            showScreen('en-grades');
+        }
+
+        function showEnSub(grade) {
+            const list = document.getElementById('en-sub-list');
+            list.innerHTML = '';
+            document.getElementById('en-menu-title').textContent = `English - ${grade}. Třída`;
+            
+            let topics = [];
+            if (grade === '4') topics = ['food',]
+            if (grade === '5') topics = ['food', 'body', 'insects'];
+            if (grade === '6') topics = ['body', 'insects', 'adj', 'present', 'pastBe', 'food', 'subjects']; // Vše kromě předmětů
+
+            topics.forEach(t => {
+                let div = document.createElement('div');
+                div.className = 'sub-item';
+                div.textContent = t.toUpperCase();
+                div.onclick = () => startEn(t);
+                list.appendChild(div);
+            });
+            showScreen('en-menu');
+        }
+
         function startMath() { mode = 'math'; setupGame(); }
         function startCzech() { mode = 'czech'; setupGame(); }
         function startEn(t) { mode = 'en'; subMode = t; setupGame(); }
-        function showEnSub() { showScreen('en-menu'); }
 
         function setupGame() {
-            // Tady vynulujeme a spustíme časovač JEN JEDNOU při startu hry
             if (mode === 'en') {
-                clearInterval(timerInterval); // Pro jistotu vyčistit starý
-                secondsPassed = 0; // Začít od nuly
+                clearInterval(timerInterval);
+                secondsPassed = 0;
                 document.getElementById('timer-display').style.display = 'block';
-                startTimer(); // Spustit hodiny
+                startTimer();
             } else {
                 document.getElementById('timer-display').style.display = 'none';
                 clearInterval(timerInterval);
@@ -287,59 +336,91 @@
                 if(mode === 'en') showScreen('en-menu');
                 else showScreen('main-menu');
             };
+            
+            createKeyboard();
             showScreen('game-screen');
             newQuestion();
         }
 
-       function startTimer() {
-            if (mode !== 'en') return;
-            clearInterval(timerInterval);
-            // secondsPassed neresetujeme zde, pokud chceš, aby to běželo celou hru (přesunuto do setupGame)
-            const display = document.getElementById('timer-display');
+        function createKeyboard() {
+            const kb = document.getElementById('keyboard');
+            kb.innerHTML = '';
+            
+            // Přidáme písmena
+            letters.forEach(l => {
+                let b = document.createElement('button');
+                b.className = 'key';
+                b.textContent = l;
+                b.onclick = () => { document.getElementById('ans-input').value += l; };
+                kb.appendChild(b);
+            });
 
+            // Speciální klávesy
+            let space = document.createElement('button');
+            space.className = 'key key-space';
+            space.textContent = 'Mezera';
+            space.onclick = () => { document.getElementById('ans-input').value += ' '; };
+            kb.appendChild(space);
+
+            let del = document.createElement('button');
+            del.className = 'key key-del';
+            del.textContent = 'Smazat ⌫';
+            del.onclick = () => { 
+                let cur = document.getElementById('ans-input').value;
+                document.getElementById('ans-input').value = cur.slice(0, -1);
+            };
+            kb.appendChild(del);
+        }
+
+        function startTimer() {
+            if (mode !== 'en') return;
+            const display = document.getElementById('timer-display');
             timerInterval = setInterval(() => {
                 secondsPassed++;
-                
-                // Výpočet minut a zbývajících vteřin
                 let m = Math.floor(secondsPassed / 60);
                 let s = secondsPassed % 60;
-
-                // Formátování: Pokud jsou minuty > 0, vypiš "Xm Ys", jinak jen "Ys"
-                if (m > 0) {
-                    display.textContent = `Čas: ${m}m ${s}s`;
-                } else {
-                    display.textContent = `Čas: ${s}s`;
-                }
+                display.textContent = m > 0 ? `Čas: ${m}m ${s}s` : `Čas: ${s}s`;
             }, 1000);
         }
 
         function newQuestion() {
-            const qEl = document.getElementById('q-text');
-            const hEl = document.getElementById('hint-text');
-            const input = document.getElementById('ans-input');
-            input.value = ""; input.focus();
+            const qEl = document.getElementById('q-text'), hEl = document.getElementById('hint-text'), input = document.getElementById('ans-input');
+            input.value = ""; 
             document.getElementById('msg').textContent = "";
-
+            
             if (mode === 'math') {
-                let a = Math.floor(Math.random() * 10) + 1;
-                let b = Math.floor(Math.random() * 10) + 1;
-                currentAnswer = (a * b).toString();
-                qEl.textContent = `${a} × ${b}`;
+                let a = Math.floor(Math.random() * 10) + 1, b = Math.floor(Math.random() * 10) + 1;
+                currentAnswer = (a * b).toString(); 
+                qEl.textContent = `${a} × ${b}`; 
                 hEl.textContent = "Vypočítej:";
-            } else if (mode === 'czech') {
-                let item = data.czech[czechIndex];
-                currentAnswer = item.a;
-                qEl.textContent = item.q;
+            } 
+            else if (mode === 'czech') {
+                // Pokud balíček neexistuje nebo je prázdný, zamíchej znova
+                if (!shuffledCz || shuffledCz.length === 0) {
+                    shuffledCz = shuffle([...data.czech]);
+                }
+                let item = shuffledCz.pop(); // Vyber poslední kartu z balíčku
+                currentAnswer = item.a; 
+                qEl.textContent = item.q; 
                 hEl.textContent = item.h;
-                czechIndex = (czechIndex + 1) % data.czech.length;
-            } else if (mode === 'en') {
-                let list = data.en[subMode];
-                let item = list[enIndices[subMode]];
-                currentAnswer = item.a;
-                qEl.textContent = item.q;
+            } 
+            else if (mode === 'en') {
+                // Pokud balíček pro danou kategorii neexistuje nebo je prázdný
+                if (!shuffledEn[subMode] || shuffledEn[subMode].length === 0) {
+                    shuffledEn[subMode] = shuffle([...data.en[subMode]]);
+                }
+                let item = shuffledEn[subMode].pop(); // Vyber poslední kartu
+                currentAnswer = item.a; 
+                qEl.textContent = item.q; 
                 hEl.textContent = "Přelož:";
-                enIndices[subMode] = (enIndices[subMode] + 1) % list.length;
             }
+        }
+
+        function showHint() {
+            const msg = document.getElementById('msg');
+            msg.textContent = `Nápověda: ${currentAnswer}`;
+            msg.style.color = "#FFB347";
+            setTimeout(() => { if(msg.textContent.includes("Nápověda")) msg.textContent = ""; }, 2000);
         }
 
         function checkAnswer() {
@@ -357,10 +438,6 @@
             }
             document.getElementById('score').textContent = score;
         }
-
-        document.getElementById('ans-input').addEventListener('keypress', (e) => { 
-            if (e.key === 'Enter') checkAnswer(); 
-        });
     </script>
 </body>
 </html>
