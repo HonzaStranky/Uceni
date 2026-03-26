@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HonzaUceni</title>
+    <title>HonzaUceni - 2026</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -33,35 +33,35 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
 
         .card {
             background: white;
-            padding: 40px 20px;
-            border-radius: 25px;
+            padding: 30px 15px;
+            border-radius: 20px;
             text-align: center;
             box-shadow: 0 8px 15px rgba(0,0,0,0.1);
             cursor: pointer;
             transition: 0.3s;
             border: none;
             font-family: 'Fredoka One', cursive;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
 
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 25px rgba(0,0,0,0.15); }
-        .card-math { border-bottom: 10px solid var(--primary); color: var(--primary); }
-        .card-cz { border-bottom: 10px solid var(--secondary); color: var(--secondary); }
-        .card-en { border-bottom: 10px solid var(--en-color); color: var(--en-color); }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 25px rgba(0,0,0,0.15); }
+        .card-math { border-bottom: 8px solid var(--primary); color: var(--primary); }
+        .card-cz { border-bottom: 8px solid var(--secondary); color: var(--secondary); }
+        .card-en { border-bottom: 8px solid var(--en-color); color: var(--en-color); }
 
-        .sub-list { display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto; }
+        .sub-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 600px; margin: 0 auto; }
         .sub-item {
             background: white;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 1.2rem;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
             font-weight: bold;
             border: 2px solid var(--en-color);
             color: var(--en-color);
@@ -71,10 +71,18 @@
         }
         .sub-item:hover { background: var(--en-color); color: white; }
 
+        .section-header {
+            font-family: 'Fredoka One', cursive;
+            color: #555;
+            margin: 25px 0 10px 0;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+
         .game-container {
             background: white;
-            padding: 40px;
-            border-radius: 30px;
+            padding: 30px;
+            border-radius: 25px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
             max-width: 600px;
@@ -84,16 +92,14 @@
 
         #timer-display {
             position: absolute;
-            top: -60px;
+            top: -50px;
             right: 0;
             background: white;
-            padding: 8px 20px;
+            padding: 5px 15px;
             border-radius: 50px;
             font-family: 'Fredoka One', cursive;
-            font-size: 1.1rem;
             color: var(--en-color);
-            border: 3px solid var(--en-color);
-            display: none;
+            border: 2px solid var(--en-color);
         }
 
         .back-btn {
@@ -103,67 +109,94 @@
             border-radius: 10px;
             cursor: pointer;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .question { font-size: 2.2rem; margin: 10px 0; color: #333; line-height: 1.4; }
+        .question { font-size: 2rem; margin: 10px 0; color: #333; }
+        input { font-size: 1.4rem; padding: 10px; width: 80%; text-align: center; border: 3px solid #ddd; border-radius: 15px; outline: none; }
         
-        /* Styl pro input a nápovědu */
-        .input-area { margin: 20px 0; }
-        input { font-size: 1.8rem; padding: 10px; width: 85%; text-align: center; border: 3px solid #ddd; border-radius: 15px; outline: none; background: #fafafa; }
-        
-        /* KLÁVESNICE */
         .keyboard {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 8px;
+            flex-direction: column; /* Řazení řádků pod sebe */
+            align-items: center;
+            gap: 0; 
             margin-top: 20px;
-            background: #f9f9f9;
+            background: #f0f0f0;
             padding: 15px;
             border-radius: 20px;
         }
+
         .key {
             background: white;
-            border: 2px solid #ddd;
-            padding: 12px 18px;
+            border: 1px solid #ccc;
             border-radius: 8px;
-            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
-            user-select: none;
-            min-width: 45px;
+            box-shadow: 0 3px 0 #bbb; /* Trošku 3D efekt jako real klávesy */
         }
-        .key:active { background: #eee; transform: translateY(2px); }
-        .key-del { background: #ffebed; border-color: var(--secondary); color: var(--secondary); }
-        .key-space { min-width: 120px; }
 
-        .btn-check { display: inline-block; margin: 10px 5px; padding: 15px 30px; background: var(--success); color: white; border: none; border-radius: 15px; font-size: 1.3rem; cursor: pointer; font-weight: bold; }
-        .btn-hint { display: inline-block; margin: 10px 5px; padding: 15px 30px; background: #FFB347; color: white; border: none; border-radius: 15px; font-size: 1.3rem; cursor: pointer; font-weight: bold; }
+        .key:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #bbb;
+        }
+        .key-space { min-width: 100px; }
 
-        .score-board { margin-top: 25px; font-size: 1.5rem; color: var(--primary); font-weight: bold; }
-        .message { height: 35px; margin-top: 15px; font-weight: bold; font-size: 1.3rem; }
+        .btn-check { padding: 12px 25px; background: var(--success); color: white; border: none; border-radius: 12px; font-size: 1.1rem; cursor: pointer; font-weight: bold; margin: 5px; }
+        .btn-hint { padding: 12px 25px; background: #FFB347; color: white; border: none; border-radius: 12px; font-size: 1.1rem; cursor: pointer; font-weight: bold; margin: 5px; }
+
+        .score-board { margin-top: 20px; font-size: 1.2rem; color: var(--primary); font-weight: bold; }
+        .message { height: 30px; margin-top: 10px; font-weight: bold; }
         .win { color: var(--success); }
         .error { color: var(--secondary); animation: shake 0.2s; }
-
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        .q-row { background: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; gap: 8px; align-items: center; border-left: 4px solid var(--primary); }
+        .q-row input { font-size: 0.9rem; padding: 5px; width: 30%; }
+        
+        #teacher-login-btn { position: fixed; bottom: 10px; right: 10px; opacity: 0.3; cursor: pointer; border: none; background: none; }
     </style>
 </head>
 <body>
 
+    <div id="login-screen" class="screen">
+        <button class="back-btn" onclick="showScreen('main-menu')">← Zpět</button>
+        <h1>Teacher Login 👨‍🏫</h1>
+        <div class="game-container">
+            <input id="login-name" placeholder="Jméno (Honza)"><br><br>
+            <input id="login-pass" type="password" placeholder="Heslo"><br><br>
+            <button class="btn-check" onclick="login()">Přihlásit</button>
+            <div id="login-msg" class="message"></div>
+        </div>
+    </div>
+
+    <div id="custom-create" class="screen">
+        <button class="back-btn" onclick="showScreen('en-menu')">← Zpět</button>
+        <h1>Editor lekce ✏️</h1>
+        <div style="text-align: center; margin-bottom: 15px;">
+            <input id="lesson-name-input" placeholder="Název cvičení" style="width: 60%; border: 2px solid var(--primary);">
+        </div>
+        <div id="custom-list" style="max-height: 350px; overflow-y: auto; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+            <button class="btn-check" style="background: var(--primary);" onclick="addQuestion()">+1 otázka</button>
+            <button class="btn-check" style="background: var(--secondary);" onclick="removeQuestion()">-1 otázka</button>
+            <button class="btn-check" onclick="saveAndPlay()">Uložit a Hrát! 🚀</button>
+        </div>
+    </div>
+
     <div id="main-menu" class="screen active-screen">
-        <h1>Vyber si předmět 📚</h1>
+        <h1>HonzaUceni</h1>
         <div class="grid">
             <button class="card card-math" onclick="startMath()">🔢<br>Násobení</button>
             <button class="card card-cz" onclick="startCzech()">🔤<br>Čeština</button>
             <button class="card card-en" onclick="showEnGrades()">👑<br>English</button>
         </div>
+        <button id="teacher-login-btn" onclick="showScreen('login-screen')">🔐 Login</button>
     </div>
 
     <div id="en-grades" class="screen">
         <button class="back-btn" onclick="showScreen('main-menu')">← Zpět</button>
         <h1>Vyber si třídu 🎒</h1>
-        <div class="grid">
+        <div class="grid" id="grades-grid">
             <button class="card card-en" onclick="showEnSub('4')">4. Třída</button>
             <button class="card card-en" onclick="showEnSub('5')">5. Třída</button>
             <button class="card card-en" onclick="showEnSub('6')">6. Třída</button>
@@ -175,9 +208,12 @@
 
     <div id="en-menu" class="screen">
         <button class="back-btn" onclick="showScreen('en-grades')">← Zpět</button>
-        <h1 id="en-menu-title">English Topics 🇬🇧</h1>
-        <div id="en-sub-list" class="sub-list">
-            </div>
+        <h1 id="en-menu-title">Témata 🇬🇧</h1>
+        <div id="en-sub-list" class="sub-list"></div>
+        <div id="my-exercises-section" style="display:none;">
+            <div class="section-header">Moje Cvičení ⭐</div>
+            <div id="my-exercises-list" class="sub-list"></div>
+        </div>
     </div>
 
     <div id="game-screen" class="screen">
@@ -187,17 +223,12 @@
             <span id="hint-text" style="color:#888; font-style:italic;">Zadání:</span>
             <div id="q-text" class="question">Načítám...</div>
             <div class="input-area">
-                <input type="text" id="ans-input" autocomplete="off" placeholder="Použíj klávesnici" readonly>
+                <input type="text" id="ans-input" autocomplete="off" placeholder="Odpověď..." readonly>
             </div>
-            
             <button class="btn-check" onclick="checkAnswer()">Zkontrolovat!</button>
-            <button class="btn-hint" onclick="showHint()">Odpověď 💡</button>
-            
+            <button class="btn-hint" onclick="showHint()">Pomoc 💡</button>
             <div id="msg" class="message"></div>
-
-            <div class="keyboard" id="keyboard">
-                </div>
-
+            <div class="keyboard" id="keyboard"></div>
             <div class="score-board">Skóre: <span id="score">0</span> 🔥</div>
         </div>
     </div>
@@ -205,166 +236,192 @@
     <script>
         let score = 0;
         let mode = ''; 
-        let subMode = '';
         let currentAnswer = '';
-        let secondsPassed = 0;
         let timerInterval;
-        let shuffledEn = {}; // Tady budou zamíchané hromádky pro každou kategorii
-        let shuffledCz = [];
-        let czechIndex = 0;
-        let enIndices = { body:0, insects:0, adj:0, subjects:0, present:0, pastBe:0, food:0 };
+        let secondsPassed = 0;
+        let isTeacher = false;
+        let currentGrade = '';
+        let shuffledQuestions = []; 
+        let currentQuestionIndex = 0;
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
+        // --- DATA ---
         const data = {
-            czech: [
-                {q: 'praha', a: 'Praha', h: 'Město:'}, {q: 'vltava', a: 'Vltava', h: 'Řeka:'},
-                {q: 'mars', a: 'Mars', h: 'Planeta:'}, {q: 'slovensko', a: 'Slovensko', h: 'Stát:'}
-            ],
+            czech: [{q: 'praha', a: 'Praha', h: 'Město:'}, {q: 'vltava', a: 'Vltava', h: 'Řeka:'}, {q: 'brno', a: 'Brno', h: 'Město:'}],
             en: {
-                // 4. / 5. TŘÍDA
+                // 4. TŘÍDA
+                colors: [{q:'Červená',a:'red'},{q:'Modrá',a:'blue'},{q:'Zelená',a:'green'},{q:'Žlutá',a:'yellow'},{q:'Černá',a:'black'},{q:'Bílá',a:'white'},{q:'Hnědá',a:'brown'},{q:'Růžová',a:'pink'},{q:'Oranžová',a:'orange'},{q:'Fialová',a:'purple'},{q:'Šedá',a:'grey'},{q:'Zlatá',a:'gold'},{q:'Stříbrná',a:'silver'},{q:'Světlá',a:'light'},{q:'Tmavá',a:'dark'}],
+                numbers: [{q:'Jedna',a:'one'},{q:'Dva',a:'two'},{q:'Tři',a:'three'},{q:'Čtyři',a:'four'},{q:'Pět',a:'five'},{q:'Šest',a:'six'},{q:'Sedm',a:'seven'},{q:'Osm',a:'eight'},{q:'Devět',a:'nine'},{q:'Deset',a:'ten'},{q:'Jedenáct',a:'eleven'},{q:'Dvanáct',a:'twelve'},{q:'Třináct',a:'thirteen'},{q:'Čtrnáct',a:'fourteen'},{q:'Patnáct',a:'fifteen'}],
+                family: [{q:'Matka',a:'mother'},{q:'Otec',a:'father'},{q:'Sestra',a:'sister'},{q:'Bratr',a:'brother'},{q:'Babička',a:'grandmother'},{q:'Dědeček',a:'grandfather'},{q:'Syn',a:'son'},{q:'Dcera',a:'daughter'},{q:'Teta',a:'aunt'},{q:'Strýc',a:'uncle'},{q:'Sestřenice/Bratranec',a:'cousin'},{q:'Miminko',a:'baby'},{q:'Rodiče',a:'parents'},{q:'Manželka',a:'wife'},{q:'Manžel',a:'husband'}],
+                greetings: [{q:'Ahoj (při setkání)',a:'hello'},{q:'Ahoj (při loučení)',a:'bye'},{q:'Dobré ráno',a:'good morning'},{q:'Dobrou noc',a:'good night'},{q:'Prosím',a:'please'},{q:'Děkuji',a:'thank you'},{q:'Promiň',a:'sorry'},{q:'Jak se máš?',a:'how are you'},{q:'Měj se hezky',a:'have a nice day'},{q:'Nashledanou',a:'goodbye'},{q:'Vítejte',a:'welcome'},{q:'Těší mě',a:'nice to meet you'},{q:'Ano',a:'yes'},{q:'Ne',a:'no'},{q:'Pojď dál',a:'come in'}],
+                school: [{q:'Škola',a:'school'},{q:'Tužka',a:'pencil'},{q:'Pero',a:'pen'},{q:'Kniha',a:'book'},{q:'Sešit',a:'notebook'},{q:'Guma',a:'eraser'},{q:'Pravítko',a:'ruler'},{q:'Učitel',a:'teacher'},{q:'Žák',a:'student'},{q:'Tabule',a:'board'},{q:'Třída',a:'classroom'},{q:'Lavice',a:'desk'},{q:'Batoh',a:'backpack'},{q:'Papír',a:'paper'},{q:'Ořezávátko',a:'sharpener'}],
                 
-                animals: [
-                    {q: 'Pes', a: 'dog'}, {q: 'Kočka', a: 'cat'}, {q: 'Kůň', a: 'horse'}, {q: 'Kráva', a: 'cow'}, {q: 'Prase', a: 'pig'},
-                    {q: 'Ovce', a: 'sheep'}, {q: 'Lev', a: 'lion'}, {q: 'Tygr', a: 'tiger'}, {q: 'Slon', a: 'elephant'}, {q: 'Žirafa', a: 'giraffe'},
-                    {q: 'Opičák', a: 'monkey'}, {q: 'Had', a: 'snake'}, {q: 'Želva', a: 'turtle'}, {q: 'Medvěd', a: 'bear'}, {q: 'Vlk', a: 'wolf'},
-                    {q: 'Liška', a: 'fox'}, {q: 'Zajíc', a: 'rabbit'}, {q: 'Pták', a: 'bird'}, {q: 'Ryba', a: 'fish'}, {q: 'Žralok', a: 'shark'},
-                    {q: 'Velryba', a: 'whale'}, {q: 'Delfín', a: 'dolphin'}, {q: 'Slepice', a: 'hen'}, {q: 'Kachna', a: 'duck'}, {q: 'Koza', a: 'goat'},
-                    {q: 'Myš', a: 'mouse'}, {q: 'Potkan', a: 'rat'}, {q: 'Křeček', a: 'hamster'}, {q: 'Papoušek', a: 'parrot'}, {q: 'Veverka', a: 'squirrel'}
-                ],
-                food: [
-                    {q: 'Jablko', a: 'apple'}, {q: 'Sýr', a: 'cheese'}, {q: 'Chleba', a: 'bread'}, {q: 'Zelenina', a: 'vegetables'}, {q: 'Máslo', a: 'butter'},
-                    {q: 'Mléko', a: 'milk'}, {q: 'Vejce', a: 'egg'}, {q: 'Maso', a: 'meat'}, {q: 'Kuře', a: 'chicken'}, {q: 'Ryba', a: 'fish'},
-                    {q: 'Rýže', a: 'rice'}, {q: 'Těstoviny', a: 'pasta'}, {q: 'Polévka', a: 'soup'}, {q: 'Salát', a: 'salad'}, {q: 'Ovoce', a: 'fruit'},
-                    {q: 'Brambory', a: 'potatoes'}, {q: 'Rajče', a: 'tomato'}, {q: 'Okurka', a: 'cucumber'}, {q: 'Cibule', a: 'onion'}, {q: 'Česnek', a: 'garlic'},
-                    {q: 'Mrkev', a: 'carrot'}, {q: 'Banán', a: 'banana'}, {q: 'Pomeranč', a: 'orange'}, {q: 'Jahoda', a: 'strawberry'}, {q: 'Hrozny', a: 'grapes'},
-                    {q: 'Dort', a: 'cake'}, {q: 'Čokoláda', a: 'chocolate'}, {q: 'Zmrzlina', a: 'ice cream'}, {q: 'Voda', a: 'water'}, {q: 'Džus', a: 'juice'}
-                ],
+                // 5. TŘÍDA
+                house: [{q:'Dům',a:'house'},{q:'Pokoj',a:'room'},{q:'Kuchyně',a:'kitchen'},{q:'Koupelna',a:'bathroom'},{q:'Ložnice',a:'bedroom'},{q:'Zahrada',a:'garden'},{q:'Okno',a:'window'},{q:'Dveře',a:'door'},{q:'Střecha',a:'roof'},{q:'Zeď',a:'wall'},{q:'Podlaha',a:'floor'},{q:'Obývací pokoj',a:'living room'},{q:'Garáž',a:'garage'},{q:'Schody',a:'stairs'},{q:'Půda',a:'attic'}],
+                clothes: [{q:'Tričko',a:'t-shirt'},{q:'Kalhoty',a:'trousers'},{q:'Boty',a:'shoes'},{q:'Bunda',a:'jacket'},{q:'Čepice',a:'cap'},{q:'Ponožky',a:'socks'},{q:'Šaty',a:'dress'},{q:'Sukně',a:'skirt'},{q:'Svetr',a:'sweater'},{q:'Košile',a:'shirt'},{q:'Klobouk',a:'hat'},{q:'Rukavice',a:'gloves'},{q:'Brýle',a:'glasses'},{q:'Pásek',a:'belt'},{q:'Mikina',a:'hoodie'}],
+                hobbies: [{q:'Hra',a:'game'},{q:'Sport',a:'sport'},{q:'Čtení',a:'reading'},{q:'Psaní',a:'writing'},{q:'Kreslení',a:'drawing'},{q:'Zpěv',a:'singing'},{q:'Tanec',a:'dancing'},{q:'Plavání',a:'swimming'},{q:'Běh',a:'running'},{q:'Fotbal',a:'football'},{q:'Kino',a:'cinema'},{q:'Hudba',a:'music'},{q:'Vaření',a:'cooking'},{q:'Cestování',a:'travelling'},{q:'Spaní',a:'sleeping'}],
+                days: [{q:'Pondělí',a:'monday'},{q:'Úterý',a:'tuesday'},{q:'Středa',a:'wednesday'},{q:'Čtvrtek',a:'thursday'},{q:'Pátek',a:'friday'},{q:'Sobota',a:'saturday'},{q:'Neděle',a:'sunday'},{q:'Týden',a:'week'},{q:'Víkend',a:'weekend'},{q:'Dnes',a:'today'},{q:'Zítra',a:'tomorrow'},{q:'Včera',a:'yesterday'},{q:'Ráno',a:'morning'},{q:'Odpoledne',a:'afternoon'},{q:'Večer',a:'evening'}],
+                weather: [{q:'Slunečno',a:'sunny'},{q:'Deštivo',a:'rainy'},{q:'Zataženo',a:'cloudy'},{q:'Sníh',a:'snow'},{q:'Vítr',a:'wind'},{q:'Bouřka',a:'storm'},{q:'Horko',a:'hot'},{q:'Zima',a:'cold'},{q:'Mlha',a:'fog'},{q:'Léto',a:'summer'},{q:'Zima (období)',a:'winter'},{q:'Jaro',a:'spring'},{q:'Podzim',a:'autumn'},{q:'Duhá',a:'rainbow'},{q:'Obloha',a:'sky'}],
 
-                // 6.-7. TŘÍDA
-                body: [
-                    {q: 'Hlava', a: 'head'}, {q: 'Ruka', a: 'hand'}, {q: 'Noha', a: 'leg'}, {q: 'Oko', a: 'eye'}, {q: 'Ucho', a: 'ear'},
-                    {q: 'Nos', a: 'nose'}, {q: 'Ústa', a: 'mouth'}, {q: 'Zub', a: 'tooth'}, {q: 'Zuby', a: 'teeth'}, {q: 'Jazyk', a: 'tongue'},
-                    {q: 'Krk', a: 'neck'}, {q: 'Rameno', a: 'shoulder'}, {q: 'Loket', a: 'elbow'}, {q: 'Zápěstí', a: 'wrist'}, {q: 'Prst (ruka)', a: 'finger'},
-                    {q: 'Palec', a: 'thumb'}, {q: 'Nehet', a: 'nail'}, {q: 'Hrudník', a: 'chest'}, {q: 'Záda', a: 'back'}, {q: 'Břicho', a: 'stomach'},
-                    {q: 'Pas', a: 'waist'}, {q: 'Bok', a: 'hip'}, {q: 'Koleno', a: 'knee'}, {q: 'Kotník', a: 'ankle'}, {q: 'Pata', a: 'heel'},
-                    {q: 'Chodidlo', a: 'foot'}, {q: 'Chodidla', a: 'feet'}, {q: 'Prst (noha)', a: 'toe'}, {q: 'Kůže', a: 'skin'}, {q: 'Vlasy', a: 'hair'}, {q: 'Tvář', a: 'face'}
-                ],
+                // 6. TŘÍDA
+                city: [{q:'Město',a:'city'},{q:'Ulice',a:'street'},{q:'Obchod',a:'shop'},{q:'Park',a:'park'},{q:'Most',a:'bridge'},{q:'Banka',a:'bank'},{q:'Kino',a:'cinema'},{q:'Muzeum',a:'museum'},{q:'Náměstí',a:'square'},{q:'Nemocnice',a:'hospital'},{q:'Kostel',a:'church'},{q:'Škola',a:'school'},{q:'Restaurace',a:'restaurant'},{q:'Zastávka',a:'bus stop'},{q:'Letiště',a:'airport'}],
+                food: [{q:'Jablko',a:'apple'},{q:'Chleba',a:'bread'},{q:'Mléko',a:'milk'},{q:'Sýr',a:'cheese'},{q:'Maso',a:'meat'},{q:'Zelenina',a:'vegetables'},{q:'Ovoce',a:'fruit'},{q:'Voda',a:'water'},{q:'Vejce',a:'egg'},{q:'Máslo',a:'butter'},{q:'Cukr',a:'sugar'},{q:'Sůl',a:'salt'},{q:'Rýže',a:'rice'},{q:'Polévka',a:'soup'},{q:'Džus',a:'juice'}],
+                transport: [{q:'Auto',a:'car'},{q:'Autobus',a:'bus'},{q:'Vlak',a:'train'},{q:'Kolo',a:'bike'},{q:'Letadlo',a:'plane'},{q:'Loď',a:'ship'},{q:'Metro',a:'subway'},{q:'Motorka',a:'motorbike'},{q:'Řidič',a:'driver'},{q:'Cesta',a:'road'},{q:'Letět',a:'fly'},{q:'Jet',a:'go'},{q:'Vrtulník',a:'helicopter'},{q:'Kamion',a:'truck'},{q:'Taxi',a:'taxi'}],
+                nature: [{q:'Strom',a:'tree'},{q:'Květina',a:'flower'},{q:'Tráva',a:'grass'},{q:'Les',a:'forest'},{q:'Hora',a:'mountain'},{q:'Řeka',a:'river'},{q:'Moře',a:'sea'},{q:'Oceán',a:'ocean'},{q:'Slunce',a:'sun'},{q:'Měsíc',a:'moon'},{q:'Hvězda',a:'star'},{q:'Země',a:'earth'},{q:'Ostrov',a:'island'},{q:'Jezero',a:'lake'},{q:'Pláž',a:'beach'}],
+                body: [{q:'Hlava',a:'head'},{q:'Ruka',a:'hand'},{q:'Noha',a:'leg'},{q:'Oko',a:'eye'},{q:'Ucho',a:'ear'},{q:'Nos',a:'nose'},{q:'Ústa',a:'mouth'},{q:'Záda',a:'back'},{q:'Břicho',a:'stomach'},{q:'Prst',a:'finger'},{q:'Krk',a:'neck'},{q:'Rameno',a:'shoulder'},{q:'Vlasy',a:'hair'},{q:'Zub',a:'tooth'},{q:'Koleno',a:'knee'}],
 
-                insects: [
-                    {q: 'Včela', a: 'bee'}, {q: 'Pavouk', a: 'spider'}, {q: 'Motýl', a: 'butterfly'}, {q: 'Mravenec', a: 'ant'}, {q: 'Moucha', a: 'fly'},
-                    {q: 'Komár', a: 'mosquito'}, {q: 'Vosa', a: 'wasp'}, {q: 'Čmelák', a: 'bumblebee'}, {q: 'Sršeň', a: 'hornet'}, {q: 'Beruška', a: 'ladybird'},
-                    {q: 'Brouk', a: 'beetle'}, {q: 'Kobylka', a: 'grasshopper'}, {q: 'Cvrček', a: 'cricket'}, {q: 'Vážka', a: 'dragonfly'}, {q: 'Můra', a: 'moth'},
-                    {q: 'Šváb', a: 'cockroach'}, {q: 'Blecha', a: 'flea'}, {q: 'Veš', a: 'louse'}, {q: 'Klíště', a: 'tick'}, {q: 'Stonožka', a: 'centipede'},
-                    {q: 'Žížala', a: 'earthworm'}, {q: 'Šnek', a: 'snail'}, {q: 'Slimák', a: 'slug'}, {q: 'Housenka', a: 'caterpillar'}, {q: 'Larva', a: 'larva'}
-                ],
-                adj: [
-                    {q: 'Rychlý', a: 'fast'}, {q: 'Dobrý', a: 'good'}, {q: 'Šťastný', a: 'happy'}, {q: 'Pomalý', a: 'slow'}, {q: 'Hlasitý', a: 'loud'},
-                    {q: 'Smutný', a: 'sad'}, {q: 'Klidný', a: 'quiet'}, {q: 'Zlý', a: 'bad'}, {q: 'Krásný', a: 'beautiful'}, {q: 'Snadný', a: 'easy'},
-                    {q: 'Tvrdý', a: 'hard'}, {q: 'Pečlivý', a: 'careful'}, {q: 'Bezpečný', a: 'safe'}, {q: 'Silný', a: 'strong'}, {q: 'Jasný', a: 'bright'},
-                    {q: 'Statečný', a: 'brave'}, {q: 'Laskavý', a: 'kind'}, {q: 'Zdvořilý', a: 'polite'}, {q: 'Hrozný', a: 'terrible'}, {q: 'Vážný', a: 'serious'},
-                    {q: 'Hladový', a: 'hungry'}, {q: 'Žíznivý', a: 'thirsty'}, {q: 'Unavený', a: 'tired'}, {q: 'Nudný', a: 'boring'}, {q: 'Mladý', a: 'young'}
-                ],
-                pastBe: [
-                    {q: 'I ___ (be) at school.', a: 'was'}, {q: 'They ___ (be) in London.', a: 'were'}, {q: 'She ___ happy.', a: 'was'}, {q: 'You ___ my friend.', a: 'were'}, {q: 'We ___ at home.', a: 'were'},
-                    {q: 'It ___ cold.', a: 'was'}, {q: 'I ___ not hungry.', a: 'was'}, {q: 'They ___ not here.', a: 'were'}, {q: 'He ___ not tired.', a: 'was'}, {q: 'We ___ not late.', a: 'were'},
-                    {q: 'Where ___ they?', a: 'were'}, {q: 'Coffee ___ hot.', a: 'was'}, {q: 'Shops ___ open.', a: 'were'}, {q: 'Parents ___ angry.', a: 'were'}, {q: 'Book ___ good.', a: 'was'},
-                    {q: 'I ___ not sad.', a: 'was'}, {q: 'We ___ not ready.', a: 'were'}, {q: 'Dog ___ outside.', a: 'was'}, {q: 'Cats ___ on bed.', a: 'were'}, {q: 'Water ___ cold.', a: 'was'}
-                ],
+                // 7. TŘÍDA
+                sports: [{q:'Hokej',a:'hockey'},{q:'Tenis',a:'tennis'},{q:'Plavání',a:'swimming'},{q:'Lyžování',a:'skiing'},{q:'Běh',a:'running'},{q:'Volejbal',a:'volleyball'},{q:'Basketbal',a:'basketball'},{q:'Cvičení',a:'exercise'},{q:'Tým',a:'team'},{q:'Míč',a:'ball'},{q:'Hráč',a:'player'},{q:'Vyhrát',a:'win'},{q:'Prohrát',a:'lose'},{q:'Zápas',a:'match'},{q:'Branka',a:'goal'}],
+                jobs: [{q:'Doktor',a:'doctor'},{q:'Policista',a:'policeman'},{q:'Hasič',a:'firefighter'},{q:'Kuchař',a:'cook'},{q:'Řidič',a:'driver'},{q:'Prodavač',a:'shop assistant'},{q:'Zpěvák',a:'singer'},{q:'Herec',a:'actor'},{q:'Programátor',a:'programmer'},{q:'Sestra (v nem.)',a:'nurse'},{q:'Stavitel',a:'builder'},{q:'Zemědělec',a:'farmer'},{q:'Úředník',a:'clerk'},{q:'Letuška',a:'flight attendant'},{q:'Číšník',a:'waiter'}],
+                opposites: [{q:'Velký (v)',a:'big'},{q:'Malý (m)',a:'small'},{q:'Rychlý (r)',a:'fast'},{q:'Pomalý (p)',a:'slow'},{q:'Drahý (d)',a:'expensive'},{q:'Levný (l)',a:'cheap'},{q:'Teplý (t)',a:'hot'},{q:'Studený (s)',a:'cold'},{q:'Šťastný (š)',a:'happy'},{q:'Smutný (s)',a:'sad'},{q:'Mladý (m)',a:'young'},{q:'Starý (s)',a:'old'},{q:'Bohatý (b)',a:'rich'},{q:'Chudý (c)',a:'poor'},{q:'Krásný (k)',a:'beautiful'}],
+                pastBe: [{q:'Já jsem byl',a:'i was'},{q:'Ty jsi byl',a:'you were'},{q:'On byl',a:'he was'},{q:'Ona byla',a:'she was'},{q:'Ono bylo',a:'it was'},{q:'My jsme byli',a:'we were'},{q:'Vy jste byli',a:'you were'},{q:'Oni byli',a:'they were'},{q:'Nebyl jsem',a:'i was not'},{q:'Nebyli jsme',a:'we were not'},{q:'Byl jsi?',a:'were you'},{q:'Byl on?',a:'was he'},{q:'Včera',a:'yesterday'},{q:'Minulý týden',a:'last week'},{q:'Před dvěma dny',a:'two days ago'}],
+                prepositions: [{q:'V',a:'in'},{q:'Na',a:'on'},{q:'Pod',a:'under'},{q:'Vedle',a:'next to'},{q:'Za',a:'behind'},{q:'Před',a:'in front of'},{q:'Mezi',a:'between'},{q:'Nad',a:'above'},{q:'U',a:'at'},{q:'Do',a:'into'},{q:'Z',a:'from'},{q:'S',a:'with'},{q:'Bez',a:'without'},{q:'O (čem)',a:'about'},{q:'Pro',a:'for'}],
 
-                // 8.-9. TŘÍDA
-                jobs: [
-                    {q: 'Právník', a: 'lawyer'}, {q: 'Soudce', a: 'judge'}, {q: 'Lékař', a: 'doctor'}, {q: 'Sestřička', a: 'nurse'}, {q: 'Zubní lékař', a: 'dentist'},
-                    {q: 'Inženýr', a: 'engineer'}, {q: 'Vědec', a: 'scientist'}, {q: 'Učitel', a: 'teacher'}, {q: 'Novinář', a: 'journalist'}, {q: 'Hasič', a: 'firefighter'},
-                    {q: 'Policista', a: 'police officer'}, {q: 'Kuchař', a: 'chef'}, {q: 'Číšník', a: 'waiter'}, {q: 'Herec', a: 'actor'}, {q: 'Spisovatel', a: 'writer'},
-                    {q: 'Účetní', a: 'accountant'}, {q: 'Architekt', a: 'architect'}, {q: 'Pilot', a: 'pilot'}, {q: 'Řidič', a: 'driver'}, {q: 'Prodavač', a: 'shop assistant'},
-                    {q: 'Podnikatel', a: 'businessman'}, {q: 'Zedník', a: 'builder'}, {q: 'Instalatér', a: 'plumber'}, {q: 'Elektrikář', a: 'electrician'}, {q: 'Zemědělec', a: 'farmer'}
-                ],
-                environment: [
-                    {q: 'Země (planeta)', a: 'earth'}, {q: 'Příroda', a: 'nature'}, {q: 'Les', a: 'forest'}, {q: 'Řeka', a: 'river'}, {q: 'Oceán', a: 'ocean'},
-                    {q: 'Znečištění', a: 'pollution'}, {q: 'Recyklace', a: 'recycling'}, {q: 'Odpadky', a: 'rubbish'}, {q: 'Globální oteplování', a: 'global warming'}, {q: 'Energie', a: 'energy'},
-                    {q: 'Slunce', a: 'sun'}, {q: 'Vzduch', a: 'air'}, {q: 'Voda', a: 'water'}, {q: 'Rostlina', a: 'plant'}, {q: 'Strom', a: 'tree'},
-                    {q: 'Počasí', a: 'weather'}, {q: 'Blesk', a: 'lightning'}, {q: 'Bouřka', a: 'storm'}, {q: 'Sucho', a: 'drought'}, {q: 'Povodeň', a: 'flood'},
-                    {q: 'Třídit odpad', a: 'sort waste'}, {q: 'Plast', a: 'plastic'}, {q: 'Sklo', a: 'glass'}, {q: 'Papír', a: 'paper'}, {q: 'Chránit', a: 'protect'}
-                ],
-                presentPerfect: [
-                    {q: 'I (see) it.', a: 'have seen'}, {q: 'She (go) out.', a: 'has gone'}, {q: 'They (finish).', a: 'have finished'}, {q: 'He (lost) keys.', a: 'has lost'}, {q: 'We (be) there.', a: 'have been'},
-                    {q: 'I (not hear) that.', a: 'have not heard'}, {q: 'You (do) it.', a: 'have done'}, {q: 'It (stop) raining.', a: 'has stopped'}, {q: 'She (buy) a car.', a: 'has bought'}, {q: 'They (not arrive).', a: 'have not arrived'},
-                    {q: 'I (write) a book.', a: 'have written'}, {q: 'He (eat) lunch.', a: 'has eaten'}, {q: 'We (meet) him.', a: 'have met'}, {q: 'You (find) it.', a: 'have found'}, {q: 'She (forgot) it.', a: 'has forgotten'},
-                    {q: 'I (never be) abroad.', a: 'have never been'}, {q: 'He (just left).', a: 'has just left'}, {q: 'They (live) here.', a: 'have lived'}, {q: 'We (win).', a: 'have won'}, {q: 'Who (do) that?', a: 'has done'}
-                ],
-                passiveVoice: [
-                    {q: 'It (make) in China.', a: 'is made'}, {q: 'Bread (bake) daily.', a: 'is baked'}, {q: 'Cars (repair) here.', a: 'are repaired'}, {q: 'I (invite) to party.', a: 'am invited'}, {q: 'Letters (send).', a: 'are sent'},
-                    {q: 'It (build) in 1990.', a: 'was built'}, {q: 'She (born) in Prague.', a: 'was born'}, {q: 'They (tell) the truth.', a: 'were told'}, {q: 'The car (steal).', a: 'was stolen'}, {q: 'The window (break).', a: 'was broken'},
-                    {q: 'English (speak) here.', a: 'is spoken'}, {q: 'Rooms (clean) now.', a: 'are cleaned'}, {q: 'Films (show) in TV.', a: 'are shown'}, {q: 'He (catch) by police.', a: 'was caught'}, {q: 'Pizza (deliver).', a: 'is delivered'}
-                ]
+                // 8. TŘÍDA
+                travel: [{q:'Cestovní pas',a:'passport'},{q:'Vízum',a:'visa'},{q:'Kufr',a:'suitcase'},{q:'Mapa',a:'map'},{q:'Průvodce',a:'guide'},{q:'Dovolená',a:'holiday'},{q:'Letenka',a:'ticket'},{q:'Ubytování',a:'accommodation'},{q:'Hotel',a:'hotel'},{q:'Pláž',a:'beach'},{q:'Památka',a:'monument'},{q:'Zahraničí',a:'abroad'},{q:'Cesta (výlet)',a:'trip'},{q:'Batoh',a:'backpack'},{q:'Rezervace',a:'reservation'}],
+                shopping: [{q:'Peníze',a:'money'},{q:'Cena',a:'price'},{q:'Sleva',a:'discount'},{q:'Účtenka',a:'receipt'},{q:'Karta',a:'card'},{q:'Hotovost',a:'cash'},{q:'Zákazník',a:'customer'},{q:'Nákupní košík',a:'shopping basket'},{q:'Trh',a:'market'},{q:'Zkusit si (oblečení)',a:'try on'},{q:'Velikost',a:'size'},{q:'Taška',a:'bag'},{q:'Stát (peníze)',a:'cost'},{q:'Koupit',a:'buy'},{q:'Prodat',a:'sell'}],
+                kitchen: [{q:'Nůž',a:'knife'},{q:'Vidlička',a:'fork'},{q:'Lžíce',a:'spoon'},{q:'Talíř',a:'plate'},{q:'Hrnek',a:'mug'},{q:'Sklenice',a:'glass'},{q:'Pánev',a:'pan'},{q:'Hrnec',a:'pot'},{q:'Trouba',a:'oven'},{q:'Lednice',a:'fridge'},{q:'Mrazák',a:'freezer'},{q:'Myčka',a:'dishwasher'},{q:'Varná konvice',a:'kettle'},{q:'Mísa',a:'bowl'},{q:'Utěrka',a:'tea towel'}],
+                animals: [{q:'Lev',a:'lion'},{q:'Tygr',a:'tiger'},{q:'Slon',a:'elephant'},{q:'Žirafa',a:'giraffe'},{q:'Zebra',a:'zebra'},{q:'Opička',a:'monkey'},{q:'Vlk',a:'wolf'},{q:'Medvěd',a:'bear'},{q:'Liška',a:'fox'},{q:'Zajíc',a:'hare'},{q:'Pták',a:'bird'},{q:'Ryba',a:'fish'},{q:'Kůň',a:'horse'},{q:'Kráva',a:'cow'},{q:'Prase',a:'pig'}],
+                presentCont: [{q:'Já právě píšu',a:'i am writing'},{q:'Ty právě jíš',a:'you are eating'},{q:'On právě běží',a:'he is running'},{q:'Ona právě spí',a:'she is sleeping'},{q:'My právě hrajeme',a:'we are playing'},{q:'Oni právě sledují',a:'they are watching'},{q:'Já právě nejdu',a:'i am not going'},{q:'Co právě děláš?',a:'what are you doing'},{q:'Ona právě čte',a:'she is reading'},{q:'Počkej',a:'wait'},{q:'Poslouchej',a:'listen'},{q:'Dívej se',a:'look'},{q:'Nyní',a:'now'},{q:'Právě teď',a:'at the moment'},{q:'Dnes',a:'today'}],
+
+                // 9. TŘÍDA
+                irregular: [{q:'Být (be)',a:'was been'},{q:'Jít (go)',a:'went gone'},{q:'Vidět (see)',a:'saw seen'},{q:'Jíst (eat)',a:'ate eaten'},{q:'Pít (drink)',a:'drank drunk'},{q:'Dělat (do)',a:'did done'},{q:'Mít (have)',a:'had had'},{q:'Psát (write)',a:'wrote written'},{q:'Číst (read)',a:'read read'},{q:'Mluvit (speak)',a:'spoke spoken'},{q:'Vzít (take)',a:'took taken'},{q:'Dát (give)',a:'gave given'},{q:'Koupit (buy)',a:'bought bought'},{q:'Spát (sleep)',a:'slept slept'},{q:'Běžet (run)',a:'ran run'}],
+                tech: [{q:'Počítač',a:'computer'},{q:'Notebook',a:'laptop'},{q:'Klávesnice',a:'keyboard'},{q:'Myš',a:'mouse'},{q:'Obrazovka',a:'screen'},{q:'Internet',a:'internet'},{q:'Heslo',a:'password'},{q:'Uložit',a:'save'},{q:'Smazat',a:'delete'},{q:'Stáhnout',a:'download'},{q:'Nahrát (upload)',a:'upload'},{q:'Software',a:'software'},{q:'Aplikace',a:'application'},{q:'Nabíječka',a:'charger'},{q:'Sluchátka',a:'headphones'}],
+                eco: [{q:'Životní prostředí',a:'environment'},{q:'Znečištění',a:'pollution'},{q:'Recyklace',a:'recycling'},{q:'Plast',a:'plastic'},{q:'Odpadky',a:'rubbish'},{q:'Energie',a:'energy'},{q:'Sluneční energie',a:'solar energy'},{q:'Globální oteplování',a:'global warming'},{q:'Chránit',a:'protect'},{q:'Šetřit',a:'save'},{q:'Příroda',a:'nature'},{q:'Les',a:'forest'},{q:'Vzduch',a:'air'},{q:'Voda',a:'water'},{q:'Zvířata',a:'animals'}],
+                feelings: [{q:'Šťastný',a:'happy'},{q:'Smutný',a:'sad'},{q:'Naštvaný',a:'angry'},{q:'Unavený',a:'tired'},{q:'Vyděšený',a:'scared'},{q:'Překvapený',a:'surprised'},{q:'Nudící se',a:'bored'},{q:'Nadšený',a:'excited'},{q:'Nervózní',a:'nervous'},{q:'Hrdý',a:'proud'},{q:'Osamělý',a:'lonely'},{q:'Zmatený',a:'confused'},{q:'Nemocný',a:'sick'},{q:'Hladový',a:'hungry'},{q:'Žíznivý',a:'thirsty'}],
+                phrasal: [{q:'Vstát',a:'get up'},{q:'Posadit se',a:'sit down'},{q:'Vstát (ze židle)',a:'stand up'},{q:'Vrátit se',a:'come back'},{q:'Pokračovat',a:'go on'},{q:'Vydat se (hledat)',a:'look for'},{q:'Vypnout',a:'turn off'},{q:'Zapnout',a:'turn on'},{q:'Vzdát se',a:'give up'},{q:'Vyplnit',a:'fill in'},{q:'Sundat si',a:'take off'},{q:'Obléknout si',a:'put on'},{q:'Zjistit',a:'find out'},{q:'Vyrůstat',a:'grow up'},{q:'Dávat pozor na',a:'look after'}]
             }
-                        
-            
         };
 
-        // Klávesnice písmena
-        const letters = "qwertzuiopasdfghjklyxcvbnm".split("");
+        function shuffleArray(array) {
+            let shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
             document.getElementById(id).classList.add('active-screen');
         }
 
-        function showEnGrades() {
-            showScreen('en-grades');
+        function login() {
+            if (document.getElementById('login-name').value === "Honza" && document.getElementById('login-pass').value === "Honza98") {
+                isTeacher = true;
+                document.getElementById('login-msg').textContent = "Vítej, pane učiteli! ✅";
+                setTimeout(() => showScreen('main-menu'), 1000);
+            } else {
+                document.getElementById('login-msg').textContent = "Chyba ❌";
+            }
         }
 
+        function showEnGrades() { showScreen('en-grades'); }
+
         function showEnSub(grade) {
+            currentGrade = grade;
             const list = document.getElementById('en-sub-list');
             list.innerHTML = '';
-            document.getElementById('en-menu-title').textContent = `English - ${grade}. Třída`;
+            document.getElementById('en-menu-title').textContent = `${grade}. Třída - Témata`;
             
             let topics = [];
-            if (grade === '4') topics = ['food', 'animals'];
-            if (grade === '5') topics = ['food', 'animals'];
-            if (grade === '6') topics = ['adjectives', 'body', 'insects', 'pastBe'];
-            if (grade === '7') topics = ['adjectives', 'body', 'insects', 'pastBe'];
-            if (grade === '8') topics = ['jobs', 'environment', 'presentperfect', 'passiveVoice'];
-            if (grade === '9') topics = ['jobs', 'environment', 'presentperfect', 'passiveVoice'];
+            switch(grade) {
+                case '4': topics = ['colors', 'numbers', 'family', 'greetings', 'school']; break;
+                case '5': topics = ['house', 'clothes', 'hobbies', 'days', 'weather']; break;
+                case '6': topics = ['city', 'food', 'transport', 'nature', 'body']; break;
+                case '7': topics = ['sports', 'jobs', 'opposites', 'pastBe', 'prepositions']; break;
+                case '8': topics = ['travel', 'shopping', 'kitchen', 'animals', 'presentCont']; break;
+                case '9': topics = ['irregular', 'tech', 'eco', 'feelings', 'phrasal']; break;
+            }
 
             topics.forEach(t => {
                 let div = document.createElement('div');
                 div.className = 'sub-item';
                 div.textContent = t.toUpperCase();
-                div.onclick = () => startEn(t);
+                div.onclick = () => { mode = 'en'; setupGame(data.en[t]); };
                 list.appendChild(div);
             });
+
+            renderMyExercises(grade);
+
+            if (isTeacher) {
+                let div = document.createElement('div');
+                div.className = 'sub-item';
+                div.style.borderColor = 'var(--secondary)';
+                div.style.color = 'var(--secondary)';
+                div.style.marginTop = "15px";
+                div.textContent = "⚙️ VYTVOŘIT VLASTNÍ";
+                div.onclick = () => { 
+                    teacherQuestions = [{q: "", a: "", h: "Přelož:"}]; 
+                    document.getElementById('lesson-name-input').value = '';
+                    renderEditor(); 
+                    showScreen('custom-create'); 
+                };
+                list.appendChild(div);
+            }
             showScreen('en-menu');
         }
 
-        function startMath() { mode = 'math'; setupGame(); }
-        function startCzech() { mode = 'czech'; setupGame(); }
-        function startEn(t) { mode = 'en'; subMode = t; setupGame(); }
+        function renderMyExercises(grade) {
+            const section = document.getElementById('my-exercises-section');
+            const list = document.getElementById('my-exercises-list');
+            const savedLessons = JSON.parse(localStorage.getItem(`my_exercises_grade_${grade}`)) || [];
+            if (savedLessons.length > 0) {
+                section.style.display = 'block';
+                list.innerHTML = '';
+                savedLessons.forEach((lesson) => {
+                    let div = document.createElement('div');
+                    div.className = 'sub-item';
+                    div.style.borderColor = 'orange';
+                    div.textContent = lesson.name;
+                    div.onclick = () => { mode = 'teacher'; setupGame(lesson.questions); };
+                    list.appendChild(div);
+                });
+            } else { section.style.display = 'none'; }
+        }
 
-        function setupGame() {
-            if (mode === 'en') {
-                clearInterval(timerInterval);
-                secondsPassed = 0;
+        function renderEditor() {
+            const container = document.getElementById('custom-list');
+            container.innerHTML = '';
+            teacherQuestions.forEach((item, index) => {
+                const row = document.createElement('div');
+                row.className = 'q-row';
+                row.innerHTML = `<span>${index+1}.</span><input placeholder="Zadání" value="${item.q}" oninput="teacherQuestions[${index}].q = this.value"><input placeholder="Odpověď" value="${item.a}" oninput="teacherQuestions[${index}].a = this.value"><input placeholder="Hint" value="${item.h}" oninput="teacherQuestions[${index}].h = this.value">`;
+                container.appendChild(row);
+            });
+        }
+
+        function addQuestion() { teacherQuestions.push({q: "", a: "", h: "Přelož:"}); renderEditor(); }
+        function removeQuestion() { if(teacherQuestions.length > 1) teacherQuestions.pop(); renderEditor(); }
+        
+        function saveAndPlay() {
+            const lessonName = document.getElementById('lesson-name-input').value || "Vlastní lekce";
+            let savedLessons = JSON.parse(localStorage.getItem(`my_exercises_grade_${currentGrade}`)) || [];
+            savedLessons.push({ name: lessonName, questions: [...teacherQuestions] });
+            localStorage.setItem(`my_exercises_grade_${currentGrade}`, JSON.stringify(savedLessons));
+            mode = 'teacher';
+            setupGame(teacherQuestions);
+        }
+
+        function startMath() { mode = 'math'; setupGame([]); }
+        function startCzech() { mode = 'czech'; setupGame(data.czech); }
+
+        function setupGame(questionsToUse) {
+            score = 0; 
+            document.getElementById('score').textContent = score;
+            clearInterval(timerInterval);
+            secondsPassed = 0;
+            if (mode !== 'math') {
                 document.getElementById('timer-display').style.display = 'block';
-                startTimer();
+                timerInterval = setInterval(() => {
+                    secondsPassed++;
+                    document.getElementById('timer-display').textContent = `Čas: ${secondsPassed}s`;
+                }, 1000);
+                shuffledQuestions = shuffleArray(questionsToUse);
+                currentQuestionIndex = 0;
             } else {
                 document.getElementById('timer-display').style.display = 'none';
-                clearInterval(timerInterval);
             }
-
-            document.getElementById('game-back-btn').onclick = () => {
-                clearInterval(timerInterval);
-                if(mode === 'en') showScreen('en-menu');
-                else showScreen('main-menu');
-            };
-            
             createKeyboard();
             showScreen('game-screen');
             newQuestion();
@@ -374,97 +431,108 @@
             const kb = document.getElementById('keyboard');
             kb.innerHTML = '';
             
-            // Přidáme písmena
-            letters.forEach(l => {
-                let b = document.createElement('button');
-                b.className = 'key';
-                b.textContent = l;
-                b.onclick = () => { document.getElementById('ans-input').value += l; };
-                kb.appendChild(b);
+            // Rozložení jako na reálné klávesnici
+            const rows = [
+                "qwertyuiop",
+                "asdfghjkl",
+                "zxcvbnm"
+            ];
+
+            rows.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.style.display = "flex";
+                rowDiv.style.justifyContent = "center";
+                rowDiv.style.gap = "8px";
+                rowDiv.style.width = "100%";
+                rowDiv.style.marginBottom = "8px";
+
+                row.split("").forEach(l => {
+                    let b = document.createElement('button');
+                    b.className = 'key'; 
+                    b.textContent = l;
+                    // Zvětšení kláves přímo v JS pro jistotu
+                    b.style.minWidth = "45px";
+                    b.style.padding = "15px 10px";
+                    b.style.fontSize = "1.4rem";
+                    
+                    b.onclick = () => document.getElementById('ans-input').value += l;
+                    rowDiv.appendChild(b);
+                });
+                kb.appendChild(rowDiv);
             });
 
-            // Speciální klávesy
+            // Spodní řada s mezerou a smazáním
+            const bottomRow = document.createElement('div');
+            bottomRow.style.display = "flex";
+            bottomRow.style.justifyContent = "center";
+            bottomRow.style.gap = "8px";
+            bottomRow.style.width = "100%";
+
             let space = document.createElement('button');
-            space.className = 'key key-space';
+            space.className = 'key key-space'; 
             space.textContent = 'Mezera';
-            space.onclick = () => { document.getElementById('ans-input').value += ' '; };
-            kb.appendChild(space);
+            space.style.minWidth = "150px";
+            space.style.padding = "15px";
+            space.onclick = () => document.getElementById('ans-input').value += ' ';
 
             let del = document.createElement('button');
-            del.className = 'key key-del';
-            del.textContent = 'Smazat ⌫';
-            del.onclick = () => { 
-                let cur = document.getElementById('ans-input').value;
-                document.getElementById('ans-input').value = cur.slice(0, -1);
-            };
-            kb.appendChild(del);
-        }
+            del.className = 'key key-del'; 
+            del.textContent = '⌫';
+            del.style.minWidth = "60px";
+            del.style.padding = "15px";
+            del.onclick = () => document.getElementById('ans-input').value = document.getElementById('ans-input').value.slice(0, -1);
 
-        function startTimer() {
-            if (mode !== 'en') return;
-            const display = document.getElementById('timer-display');
-            timerInterval = setInterval(() => {
-                secondsPassed++;
-                let m = Math.floor(secondsPassed / 60);
-                let s = secondsPassed % 60;
-                display.textContent = m > 0 ? `Čas: ${m}m ${s}s` : `Čas: ${s}s`;
-            }, 1000);
+            bottomRow.appendChild(space);
+            bottomRow.appendChild(del);
+            kb.appendChild(bottomRow);
         }
 
         function newQuestion() {
-            const qEl = document.getElementById('q-text'), hEl = document.getElementById('hint-text'), input = document.getElementById('ans-input');
-            input.value = ""; 
-            document.getElementById('msg').textContent = "";
-            
+            document.getElementById('ans-input').value = '';
+            document.getElementById('msg').textContent = '';
+            const qEl = document.getElementById('q-text');
+            const hEl = document.getElementById('hint-text');
+
             if (mode === 'math') {
                 let a = Math.floor(Math.random() * 10) + 1, b = Math.floor(Math.random() * 10) + 1;
-                currentAnswer = (a * b).toString(); 
-                qEl.textContent = `${a} × ${b}`; 
-                hEl.textContent = "Vypočítej:";
-            } 
-            else if (mode === 'czech') {
-                // Pokud balíček neexistuje nebo je prázdný, zamíchej znova
-                if (!shuffledCz || shuffledCz.length === 0) {
-                    shuffledCz = shuffle([...data.czech]);
+                currentAnswer = (a * b).toString();
+                qEl.textContent = `${a} × ${b}`; hEl.textContent = "Vypočítej:";
+            } else {
+                if (currentQuestionIndex >= shuffledQuestions.length) {
+                    shuffledQuestions = shuffleArray(shuffledQuestions);
+                    currentQuestionIndex = 0;
                 }
-                let item = shuffledCz.pop(); // Vyber poslední kartu z balíčku
-                currentAnswer = item.a; 
-                qEl.textContent = item.q; 
-                hEl.textContent = item.h;
-            } 
-            else if (mode === 'en') {
-                // Pokud balíček pro danou kategorii neexistuje nebo je prázdný
-                if (!shuffledEn[subMode] || shuffledEn[subMode].length === 0) {
-                    shuffledEn[subMode] = shuffle([...data.en[subMode]]);
-                }
-                let item = shuffledEn[subMode].pop(); // Vyber poslední kartu
-                currentAnswer = item.a; 
-                qEl.textContent = item.q; 
-                hEl.textContent = "Translate Přelož:";
+                let item = shuffledQuestions[currentQuestionIndex];
+                currentAnswer = item.a;
+                qEl.textContent = item.q;
+                hEl.textContent = item.h || "Přelož:";
+                currentQuestionIndex++;
             }
         }
 
-        function showHint() {
-            const msg = document.getElementById('msg');
-            msg.textContent = `Nápověda: ${currentAnswer}`;
-            msg.style.color = "#FFB347";
-            setTimeout(() => { if(msg.textContent.includes("Nápověda")) msg.textContent = ""; }, 2000);
-        }
-
         function checkAnswer() {
-            const val = document.getElementById('ans-input').value.trim();
+            const val = document.getElementById('ans-input').value.trim().toLowerCase();
             const msg = document.getElementById('msg');
-            
-            if (val.toLowerCase() === currentAnswer.toLowerCase()) {
+            if (val === currentAnswer.toLowerCase()) {
                 score += 10;
                 msg.textContent = "SKVĚLE! 🌟"; msg.className = "message win";
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 } });
                 setTimeout(newQuestion, 1200);
             } else {
-                score = Math.max(0, score - 5);
                 msg.textContent = "Zkus to znovu 💪"; msg.className = "message error";
             }
             document.getElementById('score').textContent = score;
+        }
+
+        function showHint() {
+            document.getElementById('msg').textContent = `Odpověď: ${currentAnswer}`;
+            document.getElementById('msg').style.color = "orange";
+        }
+
+        document.getElementById('game-back-btn').onclick = () => {
+            clearInterval(timerInterval);
+            if (mode === 'teacher' || mode === 'en') { showEnSub(currentGrade); }
+            else { showScreen('main-menu'); }
         }
     </script>
 </body>
